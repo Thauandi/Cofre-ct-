@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cofre CT</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #080808;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 7%;
+      background: #0d0d0d;
+      border-bottom: 1px solid #292929;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #e50914;
+    }
+
+    .pix {
+      padding: 8px 14px;
+      border: 1px solid #e50914;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 70px 20px 45px;
+    }
+
+    .hero h1 {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #e50914;
+    }
+
+    .hero p {
+      color: #999;
+      font-size: 17px;
+      max-width: 650px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .plans {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+      padding-bottom: 70px;
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 16px;
+      padding: 25px;
+
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #e50914;
+    }
+
+    .popular {
+      border-color: #e50914;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e50914;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      font-size: 21px;
+      margin-bottom: 12px;
+    }
+
+    .price {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .card ul {
+      list-style: none;
+      color: #aaa;
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    .card li::before {
+      content: "✓";
+      color: #e50914;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .buy {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 9px;
+
+      background: #e50914;
+      color: white;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .buy:hover {
+      background: #ff1722;
+    }
+
+    .info {
+      width: 90%;
+      max-width: 900px;
+      margin: 0 auto 60px;
+
+      padding: 25px;
+
+      text-align: center;
+
+      background: #101010;
+      border: 1px solid #292929;
+      border-radius: 15px;
+
+      color: #999;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+
+      border-top: 1px solid #222;
+
+      color: #666;
+      font-size: 13px;
+    }
+
+    /* CHECKOUT */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.85);
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+
+      background: #111;
+
+      border: 1px solid #e50914;
+      border-radius: 16px;
+
+      padding: 30px;
+
+      position: relative;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+
+      background: none;
+      border: none;
+
+      color: white;
+      font-size: 25px;
+
+      cursor: pointer;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 13px;
+      margin-bottom: 12px;
+
+      background: #080808;
+      border: 1px solid #333;
+      border-radius: 8px;
+
+      color: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #e50914;
+    }
+
+    .notice {
+      color: #666;
+      font-size: 12px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      header {
+        padding: 18px 5%;
+      }
+
+      .pix {
+        font-size: 11px;
+      }
+
+      .plans {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      COFRE <span>CT</span>
+    </div>
+
+    <div class="pix">
+      PIX • CARTÃO
+    </div>
+
+  </header>
+
+
+  <section class="hero">
+
+    <h1>
+      Escolha seu <span>plano</span>
+    </h1>
+
+    <p>
+      Escolha o período de acesso que combina com você.
+      Pagamento rápido e ativação após a confirmação.
+    </p>
+
+  </section>
+
+
+  <section class="plans">
+
+
+    <!-- 1 MÊS -->
+
+    <div class="card">
+
+      <h2>1 Mês</h2>
+
+      <div class="price">
+        R$ 24,90
+      </div>
+
+      <ul>
+        <li>1 tela</li>
+        <li>Ativação após confirmação</li>
+        <li>Suporte</li>
+      </ul>
+
+      <button
+        class="buy"
+        onclick="abrirCheckout('1 Mês', 'R$ 24,90')">
+
+        Comprar
+
+      </button>
+
+    </div>
+
+
+    <!-- 1 MÊS + TELA EXTRA -->
+
+    <div class="card popular">
+
+      <div class="tag">
+        MAIS VENDIDO
+      </div>
+
+      <h2>
+        1 Mês + Tela Extra
+      </h2>
+
+      <div class="price">
+        R$ 29,90
+      </div>
+
+      <ul>
+        <li>2 telas</li>
+        <li>Uso simultâneo</li>
+        <li>Ativação após confirmação</li>
+      </ul>
+
+      <button
+        class="buy"
+        onclick="abrirCheckout('1 Mês + Tela Extra', 'R$ 29,90')">
+
+        Comprar
+
+      </button>
+
+    </div>
+
+
+    <!-- 3 MESES -->
+
+    <div class="card">
+
+      <h2>
+        3 Meses
+      </h2>
+
+      <div class="price">
+        R$ 52,90
+      </div>
+
+      <ul>
+        <li>2 telas</li>
+        <li>Uso simultâneo</li>
+        <li>Ativação após confirmação</li>
+      </ul>
+
+      <button
+        class="buy"
+        onclick="abrirCheckout('3 Meses', 'R$ 52,90')">
+
+        Comprar
+
+      </button>
+
+    </div>
+
+
+    <!-- 6 MESES -->
+
+    <div class="card">
+
+      <h2>
+        6 Meses
+      </h2>
+
+      <div class="price">
+        R$ 99,90
+      </div>
+
+      <ul>
+        <li>2 telas</li>
+        <li>Uso simultâneo</li>
+        <li>Ativação após confirmação</li>
+      </ul>
+
+      <button
+        class="buy"
+        onclick="abrirCheckout('6 Meses', 'R$ 99,90')">
+
+        Comprar
+
+      </button>
+
+    </div>
+
+
+    <!-- 12 MESES -->
+
+    <div class="card">
+
+      <h2>
+        12 Meses
+      </h2>
+
+      <div class="price">
+        R$ 169,90
+      </div>
+
+      <ul>
+        <li>2 telas</li>
+        <li>Uso simultâneo</li>
+        <li>Ativação após confirmação</li>
+      </ul>
+
+      <button
+        class="buy"
+        onclick="abrirCheckout('12 Meses', 'R$ 169,90')">
+
+        Comprar
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <div class="info">
+
+    <strong>Cofre CT</strong>
+
+    <br>
+
+    Escolha seu plano e continue para o checkout.
+
+    <br>
+
+    O pagamento e a entrega automática serão conectados
+    posteriormente.
+
+  </div>
+
+
+  <footer>
+
+    © 2026 Cofre CT
+
+  </footer>
+
+
+  <!-- JANELA DE CHECKOUT -->
+
+  <div
+    class="modal"
+    id="checkout">
+
+    <div class="modal-box">
+
+      <button
+        class="close"
+        onclick="fecharCheckout()">
+
+        ×
+
+      </button>
+
+
+      <h2 id="planoEscolhido">
+        Seu plano
+      </h2>
+
+
+      <p id="precoEscolhido">
+        R$ 0,00
+      </p>
+
+
+      <input
+        type="text"
+        id="contato"
+        placeholder="WhatsApp ou e-mail">
+
+
+      <button
+        class="buy"
+        onclick="continuarPagamento()">
+
+        Continuar
+
+      </button>
+
+
+      <div class="notice">
+
+        Esta é uma versão inicial do checkout.
+        O pagamento real será conectado posteriormente.
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function abrirCheckout(plano, preco) {
+
+      document.getElementById("planoEscolhido")
+        .innerText = plano;
+
+      document.getElementById("precoEscolhido")
+        .innerText = preco;
+
+      document.getElementById("checkout")
+        .style.display = "flex";
+
+    }
+
+
+    function fecharCheckout() {
+
+      document.getElementById("checkout")
+        .style.display = "none";
+
+    }
+
+
+    function continuarPagamento() {
+
+      let contato =
+        document.getElementById("contato").value.trim();
+
+
+      if (contato === "") {
+
+        alert("Digite seu WhatsApp ou e-mail.");
+
+        return;
+
+      }
+
+
+      alert(
+        "Checkout de demonstração. O pagamento ainda não está conectado."
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
