@@ -35,8 +35,7 @@
       letter-spacing: 2px;
     }
 
-    .logo span,
-    .red {
+    .logo span {
       color: #e50914;
     }
 
@@ -178,7 +177,7 @@
       font-size: 13px;
     }
 
-    /* CHECKOUT */
+    /* MODAL */
 
     .modal {
       display: none;
@@ -189,6 +188,7 @@
       justify-content: center;
       padding: 20px;
       z-index: 1000;
+      overflow-y: auto;
     }
 
     .modal-box {
@@ -257,6 +257,7 @@
 
     .summary strong {
       color: white;
+      text-align: right;
     }
 
     input {
@@ -279,6 +280,71 @@
       font-size: 12px;
       margin-top: 15px;
       line-height: 1.5;
+      text-align: center;
+    }
+
+    /* PIX */
+
+    .pix-box {
+      background: #080808;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .qr {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 15px;
+      background: white;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .qr img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .pix-code {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 11px;
+      font-size: 11px;
+      color: #aaa;
+      word-break: break-all;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .copy {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #e50914;
+      border-radius: 8px;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .copy:hover {
+      background: #e50914;
+    }
+
+    .warning {
+      background: rgba(229, 9, 20, 0.08);
+      border: 1px solid rgba(229, 9, 20, 0.3);
+      border-radius: 8px;
+      padding: 10px;
+      color: #aaa;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 15px;
       text-align: center;
     }
 
@@ -319,6 +385,7 @@
       color: #666;
       font-size: 12px;
       margin-top: 12px;
+      text-align: center;
     }
 
     @media (max-width: 600px) {
@@ -343,435 +410,556 @@
 
 <body>
 
-  <header>
-    <div class="logo">
-      COFRE <span>CT</span>
+<header>
+
+  <div class="logo">
+    COFRE <span>CT</span>
+  </div>
+
+  <div class="pix">
+    PIX • CARTÃO
+  </div>
+
+</header>
+
+
+<section class="hero">
+
+  <h1>
+    Escolha seu <span>plano</span>
+  </h1>
+
+  <p>
+    Escolha o período de acesso que combina com você.
+    Pagamento rápido e ativação após a confirmação.
+  </p>
+
+</section>
+
+
+<section class="plans">
+
+  <div class="card">
+
+    <h2>1 Mês</h2>
+
+    <div class="price">
+      R$ 24,90
     </div>
 
-    <div class="pix">
-      PIX • CARTÃO
-    </div>
-  </header>
+    <ul>
+      <li>1 tela</li>
+      <li>Ativação após confirmação</li>
+      <li>Suporte</li>
+    </ul>
 
-
-  <section class="hero">
-
-    <h1>
-      Escolha seu <span>plano</span>
-    </h1>
-
-    <p>
-      Escolha o período de acesso que combina com você.
-      Pagamento rápido e ativação após a confirmação.
-    </p>
-
-  </section>
-
-
-  <section class="plans">
-
-    <div class="card">
-
-      <h2>1 Mês</h2>
-
-      <div class="price">R$ 24,90</div>
-
-      <ul>
-        <li>1 tela</li>
-        <li>Ativação após confirmação</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button class="buy"
-        onclick="abrirCheckout('1 Mês', 'R$ 24,90')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="card popular">
-
-      <div class="tag">MAIS VENDIDO</div>
-
-      <h2>1 Mês + Tela Extra</h2>
-
-      <div class="price">R$ 29,90</div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Ativação após confirmação</li>
-      </ul>
-
-      <button class="buy"
-        onclick="abrirCheckout('1 Mês + Tela Extra', 'R$ 29,90')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>3 Meses</h2>
-
-      <div class="price">R$ 52,90</div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Ativação após confirmação</li>
-      </ul>
-
-      <button class="buy"
-        onclick="abrirCheckout('3 Meses', 'R$ 52,90')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>6 Meses</h2>
-
-      <div class="price">R$ 99,90</div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Ativação após confirmação</li>
-      </ul>
-
-      <button class="buy"
-        onclick="abrirCheckout('6 Meses', 'R$ 99,90')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>12 Meses</h2>
-
-      <div class="price">R$ 169,90</div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Ativação após confirmação</li>
-      </ul>
-
-      <button class="buy"
-        onclick="abrirCheckout('12 Meses', 'R$ 169,90')">
-        Comprar
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <div class="info">
-
-    <strong>Cofre CT</strong>
-
-    <br>
-
-    Escolha seu plano e continue para o checkout.
-
-    <br>
-
-    O pagamento e a entrega automática serão conectados posteriormente.
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês', 'R$ 24,90')">
+      Comprar
+    </button>
 
   </div>
 
 
-  <footer>
-    © 2026 Cofre CT
-  </footer>
+  <div class="card popular">
+
+    <div class="tag">
+      MAIS VENDIDO
+    </div>
+
+    <h2>
+      1 Mês + Tela Extra
+    </h2>
+
+    <div class="price">
+      R$ 29,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês + Tela Extra', 'R$ 29,90')">
+      Comprar
+    </button>
+
+  </div>
 
 
-  <!-- CHECKOUT -->
+  <div class="card">
 
-  <div class="modal" id="checkout">
+    <h2>3 Meses</h2>
 
-    <div class="modal-box">
+    <div class="price">
+      R$ 52,90
+    </div>
 
-      <button class="close" onclick="fecharCheckout()">×</button>
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('3 Meses', 'R$ 52,90')">
+      Comprar
+    </button>
+
+  </div>
 
 
-      <!-- ETAPA 1 -->
+  <div class="card">
 
-      <div class="step active" id="step1">
+    <h2>6 Meses</h2>
 
-        <div class="step-title">
-          Checkout
+    <div class="price">
+      R$ 99,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('6 Meses', 'R$ 99,90')">
+      Comprar
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>12 Meses</h2>
+
+    <div class="price">
+      R$ 169,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('12 Meses', 'R$ 169,90')">
+      Comprar
+    </button>
+
+  </div>
+
+</section>
+
+
+<div class="info">
+
+  <strong>Cofre CT</strong>
+
+  <br>
+
+  Escolha seu plano e continue para o checkout.
+
+  <br>
+
+  O pagamento real será conectado posteriormente.
+
+</div>
+
+
+<footer>
+  © 2026 Cofre CT
+</footer>
+
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkout">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="fecharCheckout()">
+      ×
+    </button>
+
+
+    <!-- ETAPA 1 -->
+
+    <div class="step active" id="step1">
+
+      <div class="step-title">
+        Checkout
+      </div>
+
+      <h2 id="planoEscolhido">
+        Seu plano
+      </h2>
+
+      <p>
+        Confira seus dados antes de continuar.
+      </p>
+
+
+      <div class="summary">
+
+        <div>
+          <span>Plano</span>
+          <strong id="resumoPlano">-</strong>
         </div>
 
-        <h2 id="planoEscolhido">
-          Seu plano
+        <div>
+          <span>Valor</span>
+          <strong id="resumoPreco">-</strong>
+        </div>
+
+      </div>
+
+
+      <input
+        type="text"
+        id="contato"
+        placeholder="WhatsApp ou e-mail"
+      >
+
+
+      <button class="buy" onclick="irParaPix()">
+        Continuar para o Pix
+      </button>
+
+
+      <div class="notice">
+        Nesta versão o Pix é apenas demonstrativo.
+      </div>
+
+    </div>
+
+
+    <!-- ETAPA 2 PIX -->
+
+    <div class="step" id="step2">
+
+      <div class="step-title">
+        Pagamento via Pix
+      </div>
+
+      <h2>
+        Pague seu pedido
+      </h2>
+
+      <p>
+        Escaneie o QR Code ou copie o código Pix.
+      </p>
+
+
+      <div class="summary">
+
+        <div>
+          <span>Plano</span>
+          <strong id="pixPlano">-</strong>
+        </div>
+
+        <div>
+          <span>Valor</span>
+          <strong id="pixPreco">-</strong>
+        </div>
+
+      </div>
+
+
+      <div class="pix-box">
+
+        <div class="qr">
+
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-DEMONSTRACAO-COFRE-CT"
+            alt="QR Code Pix de demonstração">
+
+        </div>
+
+
+        <div class="pix-code" id="codigoPix">
+          PIX-DEMONSTRACAO-COFRE-CT
+        </div>
+
+
+        <button class="copy" onclick="copiarPix()">
+          Copiar código Pix
+        </button>
+
+      </div>
+
+
+      <div class="warning">
+        ⚠️ Este QR Code e este código são fictícios.
+        Nenhum pagamento real será realizado.
+      </div>
+
+
+      <button class="buy" onclick="irParaAguardando()">
+        Já fiz o pagamento
+      </button>
+
+
+      <button class="buy secondary" onclick="voltarCheckout()">
+        Voltar
+      </button>
+
+    </div>
+
+
+    <!-- ETAPA 3 AGUARDANDO -->
+
+    <div class="step" id="step3">
+
+      <div class="center">
+
+        <div class="loading"></div>
+
+        <h2>
+          Aguardando confirmação
         </h2>
 
         <p>
-          Confira seus dados antes de continuar.
+          Estamos verificando o pagamento.
         </p>
 
+      </div>
 
-        <div class="summary">
 
-          <div>
-            <span>Plano</span>
-            <strong id="resumoPlano">-</strong>
-          </div>
+      <div class="summary">
 
-          <div>
-            <span>Valor</span>
-            <strong id="resumoPreco">-</strong>
-          </div>
-
+        <div>
+          <span>Plano</span>
+          <strong id="aguardandoPlano">-</strong>
         </div>
 
-
-        <input
-          type="text"
-          id="contato"
-          placeholder="WhatsApp ou e-mail"
-        >
-
-
-        <button class="buy" onclick="continuarPagamento()">
-          Continuar
-        </button>
-
-
-        <div class="notice">
-          Seus dados serão usados apenas para identificação do pedido.
+        <div>
+          <span>Valor</span>
+          <strong id="aguardandoPreco">-</strong>
         </div>
 
       </div>
 
 
-      <!-- ETAPA 2 -->
+      <button class="buy" onclick="simularPagamento()">
+        Simular pagamento aprovado
+      </button>
 
-      <div class="step" id="step2">
 
-        <div class="step-title">
-          Pagamento
+      <div class="notice">
+        BOTÃO DE DEMONSTRAÇÃO — não confirma nenhum pagamento real.
+      </div>
+
+    </div>
+
+
+    <!-- ETAPA 4 APROVADO -->
+
+    <div class="step" id="step4">
+
+      <div class="center">
+
+        <div class="success-icon">
+          ✓
         </div>
 
-        <div class="center">
+        <h2>
+          Pagamento aprovado!
+        </h2>
 
-          <div class="loading"></div>
+        <p>
+          Seu pedido foi confirmado com sucesso.
+        </p>
 
-          <h2>
-            Aguardando pagamento
-          </h2>
+      </div>
 
-          <p>
-            Estamos aguardando a confirmação do pagamento.
-          </p>
 
+      <div class="summary">
+
+        <div>
+          <span>Plano</span>
+          <strong id="aprovadoPlano">-</strong>
         </div>
 
-
-        <div class="summary">
-
-          <div>
-            <span>Plano</span>
-            <strong id="pagamentoPlano">-</strong>
-          </div>
-
-          <div>
-            <span>Valor</span>
-            <strong id="pagamentoPreco">-</strong>
-          </div>
-
+        <div>
+          <span>Valor</span>
+          <strong id="aprovadoPreco">-</strong>
         </div>
 
-
-        <button class="buy" onclick="simularPagamento()">
-          Simular pagamento aprovado
-        </button>
-
-        <button class="buy secondary" onclick="voltarCheckout()">
-          Voltar
-        </button>
-
-
-        <div class="notice">
-          BOTÃO DE DEMONSTRAÇÃO — não realiza pagamento real.
+        <div>
+          <span>Contato</span>
+          <strong id="aprovadoContato">-</strong>
         </div>
 
       </div>
 
 
-      <!-- ETAPA 3 -->
-
-      <div class="step" id="step3">
-
-        <div class="center">
-
-          <div class="success-icon">
-            ✓
-          </div>
-
-          <h2>
-            Pagamento aprovado!
-          </h2>
-
-          <p>
-            Seu pedido foi confirmado com sucesso.
-          </p>
-
-        </div>
+      <button class="buy" onclick="fecharCheckout()">
+        Finalizar
+      </button>
 
 
-        <div class="summary">
-
-          <div>
-            <span>Plano</span>
-            <strong id="aprovadoPlano">-</strong>
-          </div>
-
-          <div>
-            <span>Valor</span>
-            <strong id="aprovadoPreco">-</strong>
-          </div>
-
-          <div>
-            <span>Contato</span>
-            <strong id="aprovadoContato">-</strong>
-          </div>
-
-        </div>
-
-
-        <button class="buy" onclick="fecharCheckout()">
-          Finalizar
-        </button>
-
-
-        <div class="order">
-          Pedido de demonstração criado.
-        </div>
-
+      <div class="order">
+        Pedido de demonstração criado.
       </div>
 
     </div>
 
   </div>
 
-
-  <script>
-
-    let planoAtual = "";
-    let precoAtual = "";
+</div>
 
 
-    function abrirCheckout(plano, preco) {
+<script>
 
-      planoAtual = plano;
-      precoAtual = preco;
+  let planoAtual = "";
+  let precoAtual = "";
 
-      document.getElementById("planoEscolhido").innerText = plano;
 
-      document.getElementById("resumoPlano").innerText = plano;
+  function abrirCheckout(plano, preco) {
 
-      document.getElementById("resumoPreco").innerText = preco;
+    planoAtual = plano;
+    precoAtual = preco;
 
-      document.getElementById("contato").value = "";
+    document.getElementById("planoEscolhido").innerText = plano;
 
-      mostrarEtapa(1);
+    document.getElementById("resumoPlano").innerText = plano;
 
-      document.getElementById("checkout").style.display = "flex";
+    document.getElementById("resumoPreco").innerText = preco;
+
+    document.getElementById("contato").value = "";
+
+    mostrarEtapa(1);
+
+    document.getElementById("checkout").style.display = "flex";
+  }
+
+
+  function fecharCheckout() {
+
+    document.getElementById("checkout").style.display = "none";
+
+    mostrarEtapa(1);
+  }
+
+
+  function mostrarEtapa(numero) {
+
+    document.querySelectorAll(".step").forEach(function(step) {
+
+      step.classList.remove("active");
+
+    });
+
+    document.getElementById("step" + numero)
+      .classList.add("active");
+  }
+
+
+  function irParaPix() {
+
+    let contato =
+      document.getElementById("contato").value.trim();
+
+
+    if (contato === "") {
+
+      alert("Digite seu WhatsApp ou e-mail.");
+
+      return;
     }
 
 
-    function fecharCheckout() {
+    document.getElementById("pixPlano")
+      .innerText = planoAtual;
 
-      document.getElementById("checkout").style.display = "none";
-
-      mostrarEtapa(1);
-    }
+    document.getElementById("pixPreco")
+      .innerText = precoAtual;
 
 
-    function mostrarEtapa(numero) {
+    mostrarEtapa(2);
+  }
 
-      document.querySelectorAll(".step").forEach(function(step) {
-        step.classList.remove("active");
+
+  function copiarPix() {
+
+    let codigo =
+      document.getElementById("codigoPix").innerText;
+
+
+    navigator.clipboard.writeText(codigo)
+      .then(function() {
+
+        alert("Código Pix copiado!");
+
+      })
+      .catch(function() {
+
+        alert("Não foi possível copiar automaticamente.");
+
       });
+  }
 
-      document.getElementById("step" + numero)
-        .classList.add("active");
+
+  function irParaAguardando() {
+
+    document.getElementById("aguardandoPlano")
+      .innerText = planoAtual;
+
+    document.getElementById("aguardandoPreco")
+      .innerText = precoAtual;
+
+
+    mostrarEtapa(3);
+  }
+
+
+  function simularPagamento() {
+
+    let contato =
+      document.getElementById("contato").value.trim();
+
+
+    document.getElementById("aprovadoPlano")
+      .innerText = planoAtual;
+
+    document.getElementById("aprovadoPreco")
+      .innerText = precoAtual;
+
+    document.getElementById("aprovadoContato")
+      .innerText = contato;
+
+
+    mostrarEtapa(4);
+  }
+
+
+  function voltarCheckout() {
+
+    mostrarEtapa(1);
+  }
+
+
+  window.onclick = function(event) {
+
+    let modal =
+      document.getElementById("checkout");
+
+
+    if (event.target === modal) {
+
+      fecharCheckout();
+
     }
 
+  };
 
-    function continuarPagamento() {
-
-      let contato =
-        document.getElementById("contato").value.trim();
-
-
-      if (contato === "") {
-
-        alert("Digite seu WhatsApp ou e-mail.");
-
-        return;
-      }
-
-
-      document.getElementById("pagamentoPlano")
-        .innerText = planoAtual;
-
-      document.getElementById("pagamentoPreco")
-        .innerText = precoAtual;
-
-
-      mostrarEtapa(2);
-    }
-
-
-    function simularPagamento() {
-
-      let contato =
-        document.getElementById("contato").value.trim();
-
-
-      document.getElementById("aprovadoPlano")
-        .innerText = planoAtual;
-
-      document.getElementById("aprovadoPreco")
-        .innerText = precoAtual;
-
-      document.getElementById("aprovadoContato")
-        .innerText = contato;
-
-
-      mostrarEtapa(3);
-    }
-
-
-    function voltarCheckout() {
-
-      mostrarEtapa(1);
-    }
-
-
-    window.onclick = function(event) {
-
-      let modal =
-        document.getElementById("checkout");
-
-      if (event.target === modal) {
-        fecharCheckout();
-      }
-
-    };
-
-  </script>
+</script>
 
 </body>
 </html>
