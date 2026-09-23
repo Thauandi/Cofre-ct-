@@ -1,627 +1,888 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Cofre CT</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    :root {
-      --red: #e50914;
-      --red2: #ff202b;
-      --black: #060606;
-      --dark: #101010;
-      --card: #151515;
-      --border: #292929;
-      --text: #f5f5f5;
-      --muted: #999;
-    }
-
-    body {
-      background:
-        radial-gradient(circle at 10% 15%, rgba(229,9,20,.13), transparent 28%),
-        radial-gradient(circle at 90% 60%, rgba(229,9,20,.09), transparent 30%),
-        linear-gradient(135deg, #050505, #111 50%, #070707);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .2;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,.025) 0px,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px,
-          transparent 5px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,.015) 0px,
-          rgba(255,255,255,.015) 1px,
-          transparent 1px,
-          transparent 7px
-        );
-      z-index: -1;
-    }
-
-    header {
-      height: 72px;
-      padding: 0 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(5,5,5,.9);
-      border-bottom: 1px solid #222;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 1000;
-      transform: rotate(-2deg);
-    }
-
-    .logo span {
-      color: var(--red);
-    }
-
-    nav {
-      display: flex;
-      gap: 8px;
-    }
-
-    nav button {
-      background: #111;
-      color: #ddd;
-      border: 1px solid #333;
-      padding: 10px 13px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    nav button:hover {
-      border-color: var(--red);
-      color: white;
-    }
-
-    main {
-      width: 90%;
-      max-width: 1150px;
-      margin: auto;
-    }
-
-    .hero {
-      padding: 90px 0 55px;
-    }
-
-    .tag {
-      color: var(--red);
-      font-size: 13px;
-      letter-spacing: 3px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .hero h1 {
-      font-size: clamp(48px, 8vw, 88px);
-      line-height: .9;
-      letter-spacing: -5px;
-      font-weight: 1000;
-    }
-
-    .hero h1 span {
-      color: var(--red);
-      text-shadow: 3px 3px 0 #420000;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin-top: 25px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.6;
-    }
-
-    .section-title {
-      font-size: 25px;
-      margin-bottom: 20px;
-    }
-
-    /* PLANOS */
-
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      padding-bottom: 50px;
-    }
-
-    .plan {
-      background: linear-gradient(145deg, #191919, #090909);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 25px;
-      position: relative;
-      overflow: hidden;
-      transition: .25s;
-    }
-
-    .plan:hover {
-      transform: translateY(-5px);
-      border-color: rgba(229,9,20,.6);
-    }
-
-    .plan.featured {
-      border-color: var(--red);
-      box-shadow: 0 0 30px rgba(229,9,20,.12);
-    }
-
-    .badge {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: var(--red);
-      padding: 5px 8px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: bold;
-    }
-
-    .plan h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .price {
-      font-size: 35px;
-      font-weight: 1000;
-      margin: 15px 0;
-    }
-
-    .plan ul {
-      list-style: none;
-      color: #aaa;
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-
-    .plan li::before {
-      content: "✓";
-      color: var(--red);
-      margin-right: 8px;
-      font-weight: bold;
-    }
-
-    .buy {
-      width: 100%;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      background: var(--red);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .buy:hover {
-      background: var(--red2);
-      transform: scale(1.02);
-    }
-
-    /* IA */
-
-    .ai-section {
-      margin: 15px 0 55px;
-      padding: 35px;
-      border-radius: 16px;
-      border: 1px solid rgba(229,9,20,.4);
-      background:
-        linear-gradient(
-          135deg,
-          rgba(229,9,20,.12),
-          rgba(15,15,15,.96) 55%
-        );
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ai-section::after {
-      content: "AI";
-      position: absolute;
-      right: -20px;
-      bottom: -65px;
-      font-size: 180px;
-      font-weight: 1000;
-      color: rgba(255,255,255,.025);
-      pointer-events: none;
-    }
-
-    .ai-content {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-    }
-
-    .ai-label {
-      color: var(--red);
-      font-weight: bold;
-      font-size: 12px;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-    }
-
-    .ai-section h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
-
-    .ai-section p {
-      color: #aaa;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .ai-button {
-      display: inline-block;
-      text-decoration: none;
-      background: var(--red);
-      color: white;
-      padding: 14px 22px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: .2s;
-    }
-
-    .ai-button:hover {
-      background: var(--red2);
-      transform: translateY(-2px);
-    }
-
-    /* INFO */
-
-    .info {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 50px;
-    }
-
-    .info-box {
-      background: rgba(17,17,17,.8);
-      border: 1px solid #252525;
-      padding: 22px;
-      border-radius: 12px;
-    }
-
-    .info-box strong {
-      display: block;
-      margin-bottom: 7px;
-    }
-
-    .info-box p {
-      color: #888;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* FAQ */
-
-    .faq {
-      margin-bottom: 65px;
-    }
-
-    .faq-item {
-      border: 1px solid #292929;
-      background: #111;
-      border-radius: 9px;
-      margin-bottom: 9px;
-      overflow: hidden;
-    }
-
-    .faq-question {
-      width: 100%;
-      padding: 17px;
-      background: none;
-      border: none;
-      color: white;
-      text-align: left;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-answer {
-      display: none;
-      padding: 0 17px 17px;
-      color: #888;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .faq-item.open .faq-answer {
-      display: block;
-    }
-
-    .faq-item.open .faq-question span {
-      transform: rotate(45deg);
-    }
-
-    .faq-question span {
-      color: var(--red);
-      font-size: 22px;
-      transition: .2s;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      background: #070707;
-      padding: 35px 7%;
-      color: #666;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    footer button {
-      background: none;
-      border: none;
-      color: #777;
-      cursor: pointer;
-    }
-
-    /* MODAIS */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.8);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 520px;
-      max-height: 90vh;
-      overflow-y: auto;
-      background: linear-gradient(145deg, #181818, #090909);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 28px;
-      position: relative;
-      box-shadow: 0 30px 100px rgba(0,0,0,.7);
-    }
-
-    .close {
-      position: absolute;
-      top: 12px;
-      right: 17px;
-      background: none;
-      border: none;
-      color: #777;
-      font-size: 25px;
-      cursor: pointer;
-    }
-
-    .close:hover {
-      color: white;
-    }
-
-    .modal h2 {
-      margin-bottom: 8px;
-    }
-
-    .modal-sub {
-      color: #888;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .input {
-      width: 100%;
-      padding: 13px;
-      background: #0c0c0c;
-      border: 1px solid #333;
-      color: white;
-      border-radius: 8px;
-      outline: none;
-      margin: 8px 0 15px;
-    }
-
-    .input:focus {
-      border-color: var(--red);
-    }
-
-    .step {
-      display: none;
-    }
-
-    .step.active {
-      display: block;
-    }
-
-    .order-box {
-      background: #0b0b0b;
-      border: 1px solid #282828;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 15px 0;
-    }
-
-    .order-box p {
-      color: #888;
-      margin: 6px 0;
-      font-size: 14px;
-    }
-
-    .order-box strong {
-      color: white;
-    }
-
-    .pix-area {
-      text-align: center;
-    }
-
-    .pix-area img {
-      width: 200px;
-      height: 200px;
-      background: white;
-      padding: 8px;
-      border-radius: 10px;
-      margin: 15px auto;
-    }
-
-    .pix-code {
-      background: #050505;
-      border: 1px solid #292929;
-      padding: 13px;
-      border-radius: 8px;
-      color: #aaa;
-      font-size: 12px;
-      word-break: break-all;
-      margin-bottom: 10px;
-    }
-
-    .loading {
-      width: 45px;
-      height: 45px;
-      border: 4px solid #333;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 25px auto;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .success {
-      text-align: center;
-    }
-
-    .success-icon {
-      width: 70px;
-      height: 70px;
-      margin: 10px auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(0,200,80,.12);
-      color: #20d66b;
-      font-size: 35px;
-    }
-
-    .client-orders {
-      max-height: 350px;
-      overflow-y: auto;
-    }
-
-    .client-order {
-      border: 1px solid #282828;
-      background: #0b0b0b;
-      padding: 15px;
-      border-radius: 9px;
-      margin-bottom: 10px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 5px;
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    .status.waiting {
-      background: rgba(255,180,0,.1);
-      color: #ffc400;
-    }
-
-    .status.paid {
-      background: rgba(0,200,80,.1);
-      color: #20d66b;
-    }
-
-    .empty {
-      text-align: center;
-      color: #666;
-      padding: 30px 0;
-    }
-
-    @media (max-width: 850px) {
-      .plans {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .info {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding: 0 5%;
-      }
-
-      nav button {
-        font-size: 10px;
-        padding: 8px;
-      }
-
-      .hero {
-        padding-top: 65px;
-      }
-
-      .hero h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
-      }
-
-      .plans {
-        grid-template-columns: 1fr;
-      }
-
-      .ai-section {
-        padding: 25px;
-      }
-
-      .ai-section h2 {
-        font-size: 26px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cofre CT</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(229,9,20,.12),transparent 25%),
+    radial-gradient(circle at 85% 70%,rgba(229,9,20,.08),transparent 25%),
+    #080808;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* TEXTURA URBANA */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.08;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      #fff 4px
+    );
+  z-index:-1;
+}
+
+/* RABISCOS */
+
+.graffiti{
+  position:fixed;
+  color:#fff;
+  opacity:.06;
+  font-weight:900;
+  pointer-events:none;
+  user-select:none;
+  z-index:-1;
+}
+
+.g1{
+  top:20%;
+  left:-40px;
+  font-size:100px;
+  transform:rotate(-15deg);
+}
+
+.g2{
+  bottom:15%;
+  right:-30px;
+  font-size:110px;
+  transform:rotate(12deg);
+}
+
+.g3{
+  top:55%;
+  left:5%;
+  font-size:45px;
+  color:#e50914;
+  transform:rotate(-20deg);
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 6%;
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #292929;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+.logo span{
+  color:#e50914;
+}
+
+.header-buttons{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.header-btn{
+  background:#151515;
+  border:1px solid #333;
+  color:white;
+  padding:9px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.2s;
+}
+
+.header-btn:hover{
+  border-color:#e50914;
+  transform:translateY(-2px);
+}
+
+.pix{
+  padding:8px 14px;
+  border:1px solid #e50914;
+  border-radius:20px;
+  font-size:12px;
+  color:#fff;
+}
+
+/* HERO */
+
+.hero{
+  min-height:540px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:80px 20px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:180px;
+  background:#e50914;
+  opacity:.08;
+  filter:blur(70px);
+  transform:rotate(-15deg);
+}
+
+.hero h1{
+  position:relative;
+  font-size:clamp(42px,8vw,82px);
+  line-height:.95;
+  font-weight:900;
+  letter-spacing:-4px;
+  text-transform:uppercase;
+  text-shadow:5px 5px 0 rgba(229,9,20,.12);
+}
+
+.hero h1 span{
+  color:#e50914;
+}
+
+.hero .street{
+  margin-top:15px;
+  color:#666;
+  font-size:12px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+}
+
+.hero p{
+  max-width:650px;
+  margin-top:22px;
+  color:#999;
+  line-height:1.7;
+}
+
+.hero-line{
+  width:150px;
+  height:4px;
+  background:#e50914;
+  margin-top:28px;
+  transform:skew(-25deg);
+  box-shadow:30px 0 0 #333;
+}
+
+/* PLANOS */
+
+.section-title{
+  width:90%;
+  max-width:1100px;
+  margin:0 auto 25px;
+}
+
+.section-title h2{
+  font-size:28px;
+  text-transform:uppercase;
+}
+
+.section-title span{
+  color:#e50914;
+}
+
+.plans{
+  width:90%;
+  max-width:1100px;
+  margin:auto;
+  padding-bottom:65px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+}
+
+.card{
+  position:relative;
+  background:
+    linear-gradient(145deg,#151515,#0d0d0d);
+  border:1px solid #292929;
+  border-radius:14px;
+  padding:25px;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.card::after{
+  content:"CT";
+  position:absolute;
+  right:-15px;
+  bottom:-25px;
+  font-size:80px;
+  font-weight:900;
+  color:#fff;
+  opacity:.025;
+  transform:rotate(-15deg);
+}
+
+.card:hover{
+  transform:translateY(-7px) rotate(-.5deg);
+  border-color:#e50914;
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.popular{
+  border-color:#e50914;
+}
+
+.tag{
+  display:inline-block;
+  background:#e50914;
+  padding:5px 10px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.card h2{
+  font-size:20px;
+}
+
+.price{
+  font-size:32px;
+  font-weight:900;
+  margin:18px 0;
+}
+
+.card ul{
+  list-style:none;
+  color:#999;
+  line-height:2;
+  margin-bottom:20px;
+}
+
+.card li::before{
+  content:"/";
+  color:#e50914;
+  font-weight:bold;
+  margin-right:8px;
+}
+
+.buy{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:7px;
+  background:#e50914;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.buy:hover{
+  background:#ff1722;
+  transform:translateY(-2px);
+}
+
+.secondary{
+  background:#222;
+  margin-top:10px;
+}
+
+.secondary:hover{
+  background:#333;
+}
+
+/* IA */
+
+.ai-section{
+  width:90%;
+  max-width:1100px;
+  margin:0 auto 65px;
+  padding:30px;
+  border:1px solid rgba(229,9,20,.45);
+  border-radius:14px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(229,9,20,.10),
+      #101010 60%,
+      #0b0b0b
+    );
+  position:relative;
+  overflow:hidden;
+}
+
+.ai-section::after{
+  content:"AI";
+  position:absolute;
+  right:-15px;
+  bottom:-55px;
+  font-size:150px;
+  font-weight:900;
+  color:#fff;
+  opacity:.025;
+  pointer-events:none;
+}
+
+.ai-content{
+  position:relative;
+  z-index:2;
+  max-width:760px;
+}
+
+.ai-tag{
+  color:#e50914;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.ai-section h2{
+  font-size:30px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.ai-section h2 span{
+  color:#e50914;
+}
+
+.ai-section p{
+  color:#999;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.ai-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:#e50914;
+  color:#fff;
+  padding:14px 22px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.ai-btn:hover{
+  background:#ff1722;
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(229,9,20,.18);
+}
+
+/* FAQ */
+
+.faq{
+  width:90%;
+  max-width:1100px;
+  margin:0 auto 70px;
+}
+
+.faq-title{
+  font-size:28px;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+.faq-title span{
+  color:#e50914;
+}
+
+.faq-item{
+  background:#101010;
+  border:1px solid #242424;
+  border-radius:9px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+
+.faq-question{
+  width:100%;
+  padding:17px;
+  background:none;
+  border:0;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:left;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.faq-question span{
+  color:#e50914;
+  font-size:20px;
+  transition:.2s;
+}
+
+.faq-answer{
+  display:none;
+  padding:0 17px 17px;
+  color:#777;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.faq-item.open .faq-answer{
+  display:block;
+}
+
+.faq-item.open .faq-question span{
+  transform:rotate(45deg);
+}
+
+/* INFO */
+
+.info-grid{
+  width:90%;
+  max-width:1000px;
+  margin:0 auto 70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.info-box{
+  padding:22px;
+  background:#101010;
+  border:1px solid #242424;
+  border-radius:12px;
+}
+
+.info-box h3{
+  margin-bottom:8px;
+}
+
+.info-box p{
+  color:#777;
+  line-height:1.6;
+  font-size:13px;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid #222;
+  padding:30px 6%;
+  text-align:center;
+  color:#555;
+  font-size:12px;
+}
+
+.footer-links{
+  margin-bottom:12px;
+}
+
+.footer-links button{
+  background:none;
+  border:0;
+  color:#777;
+  margin:0 8px;
+  cursor:pointer;
+}
+
+.footer-links button:hover{
+  color:#e50914;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  backdrop-filter:blur(5px);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
+  overflow-y:auto;
+}
+
+.modal-box{
+  width:100%;
+  max-width:470px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#111;
+  border:1px solid #e50914;
+  border-radius:15px;
+  padding:28px;
+  position:relative;
+  box-shadow:0 0 60px rgba(229,9,20,.12);
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  background:none;
+  border:0;
+  color:white;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.step{
+  display:none;
+}
+
+.step.active{
+  display:block;
+}
+
+.step-title{
+  color:#e50914;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.modal-box h2{
+  margin-bottom:8px;
+}
+
+.modal-box p{
+  color:#999;
+  margin-bottom:18px;
+  line-height:1.5;
+}
+
+.summary{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:9px;
+  padding:14px;
+  margin-bottom:15px;
+}
+
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:7px 0;
+  color:#888;
+}
+
+.summary strong{
+  color:#fff;
+  text-align:right;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#080808;
+  border:1px solid #333;
+  border-radius:7px;
+  color:#fff;
+  outline:none;
+}
+
+input:focus{
+  border-color:#e50914;
+}
+
+.notice{
+  text-align:center;
+  color:#666;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+/* PIX */
+
+.pix-box{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:10px;
+  padding:18px;
+  text-align:center;
+  margin-bottom:14px;
+}
+
+.qr{
+  width:180px;
+  height:180px;
+  background:#fff;
+  padding:8px;
+  margin:0 auto 15px;
+  border-radius:7px;
+}
+
+.qr img{
+  width:100%;
+  height:100%;
+}
+
+.pix-code{
+  background:#151515;
+  border:1px solid #333;
+  border-radius:7px;
+  padding:10px;
+  font-size:11px;
+  color:#aaa;
+  word-break:break-all;
+  text-align:left;
+  margin-bottom:10px;
+}
+
+.copy{
+  width:100%;
+  padding:10px;
+  background:transparent;
+  color:#fff;
+  border:1px solid #e50914;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.warning{
+  background:rgba(229,9,20,.07);
+  border:1px solid rgba(229,9,20,.25);
+  color:#999;
+  padding:10px;
+  border-radius:7px;
+  font-size:11px;
+  line-height:1.5;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+/* PEDIDO */
+
+.order-code{
+  background:#080808;
+  border:1px dashed #e50914;
+  border-radius:8px;
+  padding:13px;
+  text-align:center;
+  margin:15px 0;
+}
+
+.order-code small{
+  display:block;
+  color:#666;
+  font-size:10px;
+  margin-bottom:5px;
+}
+
+.order-code strong{
+  font-size:20px;
+  letter-spacing:2px;
+}
+
+.status{
+  padding:10px;
+  text-align:center;
+  border-radius:7px;
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+.pending{
+  color:#f0a500;
+  background:#19150c;
+}
+
+.paid{
+  color:#35d07f;
+  background:#0b1b12;
+}
+
+.delivery{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:9px;
+  padding:15px;
+  margin-top:15px;
+}
+
+.delivery h3{
+  margin-bottom:8px;
+}
+
+.delivery p{
+  margin-bottom:10px;
+}
+
+.product-demo{
+  padding:13px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:7px;
+  color:#ddd;
+  font-size:13px;
+  word-break:break-word;
+}
+
+.expire-box{
+  background:#0b0b0b;
+  border:1px solid #292929;
+  padding:12px;
+  border-radius:8px;
+  margin-top:10px;
+  color:#aaa;
+  text-align:center;
+  font-size:12px;
+}
+
+.expire-box strong{
+  display:block;
+  color:white;
+  margin-top:4px;
+  font-size:16px;
+}
+
+/* CONSULTA */
+
+.result{
+  margin-top:15px;
+}
+
+.history-item{
+  background:#080808;
+  border:1px solid #292929;
+  padding:13px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.history-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.history-item small{
+  color:#777;
+}
+
+/* LOADING */
+
+.loading{
+  width:45px;
+  height:45px;
+  border:4px solid #333;
+  border-top-color:#e50914;
+  border-radius:50%;
+  margin:15px auto 20px;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.success{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#e50914;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:5px auto 20px;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.center{
+  text-align:center;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:600px){
+
+  header{
+    flex-wrap:wrap;
+    padding:16px 5%;
+  }
+
+  .header-buttons{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .pix{
+    display:none;
+  }
+
+  .hero{
+    min-height:470px;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+
+  .plans{
+    width:92%;
+  }
+
+  .ai-section{
+    width:92%;
+    padding:23px;
+  }
+
+  .ai-section h2{
+    font-size:25px;
+  }
+
+  .ai-btn{
+    width:100%;
+  }
+
+  .faq{
+    width:92%;
+  }
+
+  .modal-box{
+    padding:23px;
+  }
+}
+</style>
 </head>
 
+
 <body>
+
+<div class="graffiti g1">CT</div>
+<div class="graffiti g2">STREET</div>
+<div class="graffiti g3">///</div>
+
 
 <header>
 
@@ -629,1092 +890,1343 @@
     COFRE <span>CT</span>
   </div>
 
-  <nav>
-    <button onclick="abrirAreaCliente()">
+  <div class="header-buttons">
+
+    <button class="header-btn" onclick="abrirCliente()">
       Área do cliente
     </button>
 
-    <button onclick="abrirConsultarPedido()">
+    <button class="header-btn" onclick="abrirConsulta()">
       Consultar pedido
     </button>
-  </nav>
+
+    <div class="pix">
+      PIX • CARTÃO
+    </div>
+
+  </div>
 
 </header>
 
 
-<main>
+<section class="hero">
 
-  <!-- HERO -->
+  <div class="street">
+    STREET ACCESS • COFRE CT
+  </div>
 
-  <section class="hero">
+  <h1>
+    Seu acesso.<br>
+    <span>Seu espaço.</span>
+  </h1>
+
+  <p>
+    Escolha seu plano, faça seu pedido e acompanhe
+    tudo pelo Cofre CT.
+  </p>
+
+  <div class="hero-line"></div>
+
+</section>
+
+
+<div class="section-title">
+  <h2>
+    Escolha seu <span>plano</span>
+  </h2>
+</div>
+
+
+<section class="plans">
+
+  <div class="card">
+
+    <h2>1 Mês</h2>
+
+    <div class="price">
+      R$ 24,90
+    </div>
+
+    <ul>
+      <li>1 tela</li>
+      <li>Ativação após confirmação</li>
+      <li>Suporte</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês','R$ 24,90')">
+      Comprar
+    </button>
+
+  </div>
+
+
+  <div class="card popular">
 
     <div class="tag">
-      ACESSO • DIGITAL • CT
+      MAIS VENDIDO
     </div>
 
-    <h1>
-      SEU ACESSO.<br>
-      SEU <span>ESPAÇO.</span>
-    </h1>
-
-    <p>
-      Escolha seu plano, faça seu pedido e acompanhe tudo
-      diretamente pela Cofre CT.
-    </p>
-
-  </section>
-
-
-  <!-- PLANOS -->
-
-  <h2 class="section-title">
-    Escolha seu plano
-  </h2>
-
-  <section class="plans">
-
-    <div class="plan">
-
-      <h3>1 Mês</h3>
-
-      <div class="price">
-        R$ 24,90
-      </div>
-
-      <ul>
-        <li>1 tela</li>
-        <li>Acesso por 30 dias</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button
-        class="buy"
-        onclick="abrirCheckout('1 Mês','24,90','1 tela')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="plan featured">
-
-      <div class="badge">
-        MAIS VENDIDO
-      </div>
-
-      <h3>1 Mês + Tela Extra</h3>
-
-      <div class="price">
-        R$ 29,90
-      </div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Acesso por 30 dias</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button
-        class="buy"
-        onclick="abrirCheckout('1 Mês + Tela Extra','29,90','2 telas')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="plan">
-
-      <h3>3 Meses</h3>
-
-      <div class="price">
-        R$ 52,90
-      </div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Acesso por 90 dias</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button
-        class="buy"
-        onclick="abrirCheckout('3 Meses','52,90','2 telas')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="plan">
-
-      <h3>6 Meses</h3>
-
-      <div class="price">
-        R$ 99,90
-      </div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Acesso por 180 dias</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button
-        class="buy"
-        onclick="abrirCheckout('6 Meses','99,90','2 telas')">
-        Comprar
-      </button>
-
-    </div>
-
-
-    <div class="plan">
-
-      <h3>12 Meses</h3>
-
-      <div class="price">
-        R$ 169,90
-      </div>
-
-      <ul>
-        <li>2 telas</li>
-        <li>Uso simultâneo</li>
-        <li>Acesso por 1 ano</li>
-        <li>Suporte</li>
-      </ul>
-
-      <button
-        class="buy"
-        onclick="abrirCheckout('12 Meses','169,90','2 telas')">
-        Comprar
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- IA -->
-
-  <section class="ai-section">
-
-    <div class="ai-content">
-
-      <div class="ai-label">
-        PRECISA DE AJUDA?
-      </div>
-
-      <h2>
-        Tire suas dúvidas com nossa IA.
-      </h2>
-
-      <p>
-        Obtenha mais informações sobre a Cofre CT,
-        tire suas dúvidas e encontre ajuda de forma rápida
-        conversando com nosso assistente virtual.
-      </p>
-
-      <a
-        class="ai-button"
-        href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
-        target="_blank"
-        rel="noopener noreferrer">
-        🤖 CONVERSAR COM A IA
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- FAQ -->
-
-  <section class="faq">
-
-    <h2 class="section-title">
-      Dúvidas frequentes
+    <h2>
+      1 Mês + Tela Extra
     </h2>
 
-
-    <div class="faq-item">
-
-      <button
-        class="faq-question"
-        onclick="toggleFaq(this)">
-        Como funciona a compra?
-        <span>+</span>
-      </button>
-
-      <div class="faq-answer">
-        Escolha um plano, informe seu contato e siga as
-        instruções do checkout para realizar o pedido.
-      </div>
-
+    <div class="price">
+      R$ 29,90
     </div>
 
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
 
-    <div class="faq-item">
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês + Tela Extra','R$ 29,90')">
+      Comprar
+    </button>
 
-      <button
-        class="faq-question"
-        onclick="toggleFaq(this)">
-        Como recebo meu acesso?
-        <span>+</span>
-      </button>
+  </div>
 
-      <div class="faq-answer">
-        Após a confirmação do pagamento, o acesso será
-        disponibilizado conforme o sistema de entrega da Cofre CT.
-      </div>
 
+  <div class="card">
+
+    <h2>3 Meses</h2>
+
+    <div class="price">
+      R$ 52,90
     </div>
 
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
 
-    <div class="faq-item">
+    <button class="buy"
+      onclick="abrirCheckout('3 Meses','R$ 52,90')">
+      Comprar
+    </button>
 
-      <button
-        class="faq-question"
-        onclick="toggleFaq(this)">
-        Onde vejo meu pedido?
-        <span>+</span>
-      </button>
+  </div>
 
-      <div class="faq-answer">
-        Você pode consultar seu pedido usando o código recebido
-        ou acessar a Área do Cliente.
-      </div>
 
+  <div class="card">
+
+    <h2>6 Meses</h2>
+
+    <div class="price">
+      R$ 99,90
     </div>
 
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
 
-    <div class="faq-item">
+    <button class="buy"
+      onclick="abrirCheckout('6 Meses','R$ 99,90')">
+      Comprar
+    </button>
 
-      <button
-        class="faq-question"
-        onclick="toggleFaq(this)">
-        Ainda tenho dúvidas.
-        <span>+</span>
-      </button>
+  </div>
 
-      <div class="faq-answer">
-        Nossa IA pode ajudar com dúvidas e informações sobre
-        a plataforma. Clique no botão "Conversar com a IA"
-        acima.
-      </div>
 
+  <div class="card">
+
+    <h2>12 Meses</h2>
+
+    <div class="price">
+      R$ 169,90
     </div>
 
-  </section>
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('12 Meses','R$ 169,90')">
+      Comprar
+    </button>
+
+  </div>
+
+</section>
 
 
-  <!-- INFO -->
+<!-- IA -->
 
-  <section class="info">
+<section class="ai-section">
 
-    <div class="info-box">
-      <strong>⚡ Rápido</strong>
+  <div class="ai-content">
 
-      <p>
-        Processo simples e direto para realizar seu pedido.
-      </p>
+    <div class="ai-tag">
+      PRECISA DE AJUDA?
     </div>
 
+    <h2>
+      Tire suas dúvidas com nossa <span>IA.</span>
+    </h2>
 
-    <div class="info-box">
-      <strong>🔒 Seguro</strong>
+    <p>
+      Quer saber como funciona, tirar dúvidas sobre a Cofre CT
+      ou obter mais informações? Converse com nosso assistente
+      virtual e encontre ajuda de forma rápida.
+    </p>
 
-      <p>
-        Seus pedidos ficam registrados para consulta.
-      </p>
+    <a
+      class="ai-btn"
+      href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
+      target="_blank"
+      rel="noopener noreferrer">
+      🤖 CONVERSAR COM NOSSA IA
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section class="faq">
+
+  <div class="faq-title">
+    Dúvidas <span>frequentes</span>
+  </div>
+
+
+  <div class="faq-item">
+
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Como funciona a compra?
+      <span>+</span>
+    </button>
+
+    <div class="faq-answer">
+      Escolha um dos planos disponíveis, informe seu WhatsApp
+      ou e-mail e siga as etapas do checkout.
     </div>
 
+  </div>
 
-    <div class="info-box">
-      <strong>📦 Entrega</strong>
 
-      <p>
-        Após a confirmação, seu acesso será disponibilizado.
-      </p>
+  <div class="faq-item">
+
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Como recebo meu acesso?
+      <span>+</span>
+    </button>
+
+    <div class="faq-answer">
+      Após a confirmação do pagamento, a entrega será feita
+      pelo sistema de entrega conectado à Cofre CT.
     </div>
 
-  </section>
+  </div>
 
-</main>
+
+  <div class="faq-item">
+
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Como consultar meu pedido?
+      <span>+</span>
+    </button>
+
+    <div class="faq-answer">
+      Use o botão "Consultar pedido" no topo do site e informe
+      o código do seu pedido.
+    </div>
+
+  </div>
+
+
+  <div class="faq-item">
+
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Ainda tenho dúvidas. O que faço?
+      <span>+</span>
+    </button>
+
+    <div class="faq-answer">
+      Converse com nossa IA no botão acima. Ela foi criada
+      para ajudar com dúvidas e informações sobre a Cofre CT.
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="info-grid">
+
+  <div class="info-box">
+    <h3>⚡ Rápido</h3>
+    <p>
+      Pedido simples e acompanhamento direto pelo site.
+    </p>
+  </div>
+
+  <div class="info-box">
+    <h3>🔒 Seguro</h3>
+    <p>
+      A estrutura foi preparada para receber um sistema
+      seguro de backend futuramente.
+    </p>
+  </div>
+
+  <div class="info-box">
+    <h3>📦 Entrega</h3>
+    <p>
+      A estrutura de entrega já está preparada para
+      receber o produto após a confirmação.
+    </p>
+  </div>
+
+</section>
 
 
 <footer>
 
-  <p>
-    © 2026 Cofre CT — Todos os direitos reservados.
-  </p>
+  <div class="footer-links">
 
-  <p style="margin-top:10px;">
-
-    <button onclick="abrirInfo('Termos')">
+    <button onclick="abrirInfo('termos')">
       Termos
     </button>
 
-    •
-
-    <button onclick="abrirInfo('Privacidade')">
+    <button onclick="abrirInfo('privacidade')">
       Privacidade
     </button>
 
-    •
-
-    <button onclick="abrirInfo('Suporte')">
+    <button onclick="abrirInfo('suporte')">
       Suporte
     </button>
 
-  </p>
+  </div>
+
+  © 2026 Cofre CT
 
 </footer>
 
 
 <!-- CHECKOUT -->
 
-<div class="modal" id="checkoutModal">
+<div class="modal" id="checkout">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <button
-      class="close"
-      onclick="fecharCheckout()">
-      ×
-    </button>
+<button class="close" onclick="fechar('checkout')">×</button>
 
 
-    <!-- ETAPA 1 -->
+<div class="step active" id="step1">
 
-    <div class="step active" id="step1">
+<div class="step-title">
+Checkout
+</div>
 
-      <h2>Finalizar pedido</h2>
+<h2 id="planoEscolhido">
+Seu plano
+</h2>
 
-      <p class="modal-sub">
-        Confira seu plano antes de continuar.
-      </p>
+<p>
+Confira os dados antes de continuar.
+</p>
 
-      <div class="order-box">
+<div class="summary">
 
-        <p>
-          Plano:
-          <strong id="checkoutPlano"></strong>
-        </p>
+<div>
+<span>Plano</span>
+<strong id="resumoPlano">-</strong>
+</div>
 
-        <p>
-          Valor:
-          <strong>
-            R$ <span id="checkoutPreco"></span>
-          </strong>
-        </p>
+<div>
+<span>Valor</span>
+<strong id="resumoPreco">-</strong>
+</div>
 
-        <p>
-          Telas:
-          <strong id="checkoutTelas"></strong>
-        </p>
+</div>
 
-      </div>
+<input
+id="contato"
+placeholder="WhatsApp ou e-mail">
 
-      <input
-        class="input"
-        id="contato"
-        placeholder="Seu WhatsApp ou e-mail">
+<button class="buy" onclick="irPix()">
+Continuar para o Pix
+</button>
 
-      <button
-        class="buy"
-        onclick="irParaPix()">
-        Continuar
-      </button>
-
-    </div>
-
-
-    <!-- ETAPA 2 -->
-
-    <div class="step" id="step2">
-
-      <h2>Pagamento via Pix</h2>
-
-      <p class="modal-sub">
-        Escaneie o QR Code ou copie o código Pix.
-      </p>
-
-      <div class="pix-area">
-
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-DEMONSTRACAO-COFRE-CT"
-          alt="QR Code Pix">
-
-        <div
-          class="pix-code"
-          id="pixCode">
-          PIX-DEMONSTRACAO-COFRE-CT
-        </div>
-
-        <button
-          class="buy"
-          onclick="copiarPix()">
-          Copiar código Pix
-        </button>
-
-      </div>
-
-      <button
-        onclick="irParaAguardando()"
-        style="
-          width:100%;
-          margin-top:10px;
-          padding:12px;
-          border-radius:8px;
-          border:1px solid #333;
-          background:#111;
-          color:#aaa;
-          cursor:pointer;
-        ">
-        Já fiz o pagamento
-      </button>
-
-    </div>
-
-
-    <!-- ETAPA 3 -->
-
-    <div class="step" id="step3">
-
-      <div style="text-align:center;">
-
-        <h2>Aguardando confirmação</h2>
-
-        <p class="modal-sub">
-          Estamos aguardando a confirmação do pagamento.
-        </p>
-
-        <div class="loading"></div>
-
-        <p style="color:#666;font-size:13px;">
-          Esta é uma simulação enquanto o sistema de
-          pagamento real ainda não está conectado.
-        </p>
-
-        <button
-          class="buy"
-          onclick="simularPagamento()"
-          style="margin-top:20px;">
-          Simular pagamento aprovado
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- ETAPA 4 -->
-
-    <div class="step" id="step4">
-
-      <div class="success">
-
-        <div class="success-icon">
-          ✓
-        </div>
-
-        <h2>Pagamento aprovado!</h2>
-
-        <p class="modal-sub">
-          Seu pedido foi registrado.
-        </p>
-
-        <div class="order-box">
-
-          <p>
-            Pedido:
-            <strong id="pedidoGerado"></strong>
-          </p>
-
-          <p>
-            Produto:
-            <strong>PRODUTO-DEMO-COFRE-CT</strong>
-          </p>
-
-          <p>
-            Status:
-            <strong>Pago</strong>
-          </p>
-
-        </div>
-
-        <button
-          class="buy"
-          onclick="fecharCheckout()">
-          Fechar
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
+<div class="notice">
+O pagamento nesta versão é demonstrativo.
+</div>
 
 </div>
 
 
-<!-- ÁREA DO CLIENTE -->
+<div class="step" id="step2">
 
-<div class="modal" id="clienteModal">
+<div class="step-title">
+Pagamento
+</div>
 
-  <div class="modal-box">
+<h2>
+Pagamento via Pix
+</h2>
 
-    <button
-      class="close"
-      onclick="fecharModal('clienteModal')">
-      ×
-    </button>
+<p>
+Escaneie ou copie o código.
+</p>
 
-    <h2>Área do cliente</h2>
+<div class="summary">
 
-    <p class="modal-sub">
-      Seus pedidos realizados neste navegador.
-    </p>
+<div>
+<span>Plano</span>
+<strong id="pixPlano">-</strong>
+</div>
 
-    <div
-      class="client-orders"
-      id="listaPedidos">
-    </div>
+<div>
+<span>Valor</span>
+<strong id="pixPreco">-</strong>
+</div>
 
-  </div>
+</div>
+
+<div class="pix-box">
+
+<div class="qr">
+
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-DEMONSTRACAO-COFRE-CT"
+alt="QR Code">
+
+</div>
+
+<div class="pix-code" id="codigoPix">
+PIX-DEMONSTRACAO-COFRE-CT
+</div>
+
+<button class="copy" onclick="copiarPix()">
+Copiar código Pix
+</button>
+
+</div>
+
+<div class="warning">
+⚠️ Pix fictício para demonstração.
+</div>
+
+<button class="buy" onclick="aguardando()">
+Já fiz o pagamento
+</button>
+
+<button class="buy secondary" onclick="etapa(1)">
+Voltar
+</button>
 
 </div>
 
 
-<!-- CONSULTAR PEDIDO -->
+<div class="step" id="step3">
 
-<div class="modal" id="consultaModal">
+<div class="center">
 
-  <div class="modal-box">
+<div class="loading"></div>
 
-    <button
-      class="close"
-      onclick="fecharModal('consultaModal')">
-      ×
-    </button>
+<h2>
+Aguardando confirmação
+</h2>
 
-    <h2>Consultar pedido</h2>
+<p>
+Aguardando confirmação do pagamento.
+</p>
 
-    <p class="modal-sub">
-      Digite o código do seu pedido.
-    </p>
+</div>
 
-    <input
-      class="input"
-      id="codigoConsulta"
-      placeholder="Ex: CT-123456">
+<div class="order-code">
 
-    <button
-      class="buy"
-      onclick="consultarPedido()">
-      Consultar
-    </button>
+<small>
+Número do pedido
+</small>
 
-    <div
-      id="resultadoConsulta"
-      style="margin-top:15px;">
-    </div>
+<strong id="codigoPedido">
+-
+</strong>
 
-  </div>
+</div>
+
+<div class="status pending">
+🟡 Aguardando pagamento
+</div>
+
+<button class="buy" onclick="aprovarDemo()">
+Simular pagamento aprovado
+</button>
+
+<div class="notice">
+Somente demonstração.
+</div>
+
+</div>
+
+
+<div class="step" id="step4">
+
+<div class="center">
+
+<div class="success">
+✓
+</div>
+
+<h2>
+Pagamento aprovado!
+</h2>
+
+<p>
+Seu pedido foi confirmado.
+</p>
+
+</div>
+
+<div class="order-code">
+
+<small>
+Pedido
+</small>
+
+<strong id="codigoAprovado">
+-
+</strong>
+
+</div>
+
+<div class="status paid">
+🟢 Pago
+</div>
+
+<div class="summary">
+
+<div>
+<span>Plano</span>
+<strong id="aprovadoPlano">-</strong>
+</div>
+
+<div>
+<span>Valor</span>
+<strong id="aprovadoPreco">-</strong>
+</div>
+
+</div>
+
+<div class="expire-box">
+
+Validade do acesso
+
+<strong id="aprovadoValidade">
+-
+</strong>
+
+</div>
+
+<div class="delivery">
+
+<h3>
+📦 Entrega liberada
+</h3>
+
+<p>
+Produto de demonstração:
+</p>
+
+<div class="product-demo">
+PRODUTO-DEMO-COFRE-CT
+</div>
+
+</div>
+
+<button class="buy" onclick="fechar('checkout')">
+Finalizar
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- ÁREA CLIENTE -->
+
+<div class="modal" id="cliente">
+
+<div class="modal-box">
+
+<button class="close" onclick="fechar('cliente')">×</button>
+
+<div class="step-title">
+Área do cliente
+</div>
+
+<h2>
+Meus pedidos
+</h2>
+
+<p>
+Pedidos salvos neste navegador.
+</p>
+
+<div id="historico">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CONSULTA -->
+
+<div class="modal" id="consulta">
+
+<div class="modal-box">
+
+<button class="close" onclick="fechar('consulta')">×</button>
+
+<div class="step-title">
+Consultar pedido
+</div>
+
+<h2>
+Seu pedido
+</h2>
+
+<p>
+Digite o código do pedido.
+</p>
+
+<input
+id="codigoConsulta"
+placeholder="CT-XXXXXX">
+
+<button class="buy" onclick="consultar()">
+Consultar
+</button>
+
+<div class="result" id="resultado"></div>
+
+</div>
 
 </div>
 
 
 <!-- INFO -->
 
-<div class="modal" id="infoModal">
+<div class="modal" id="info">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <button
-      class="close"
-      onclick="fecharModal('infoModal')">
-      ×
-    </button>
+<button class="close" onclick="fechar('info')">×</button>
 
-    <h2 id="infoTitulo"></h2>
+<div id="infoConteudo"></div>
 
-    <p
-      id="infoTexto"
-      class="modal-sub"
-      style="line-height:1.7;">
-    </p>
-
-  </div>
+</div>
 
 </div>
 
 
 <script>
 
-  let planoSelecionado = null;
-  let precoSelecionado = null;
-  let telasSelecionadas = null;
-  let pedidoAtual = null;
+let planoAtual="";
+let precoAtual="";
+let pedidoAtual=null;
 
 
-  /* FAQ */
+/* PEDIDOS */
 
-  function toggleFaq(botao) {
+function gerarCodigo(){
 
-    const item =
-      botao.parentElement;
+const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    item.classList.toggle("open");
+let codigo="CT-";
 
-  }
+for(let i=0;i<6;i++){
 
+codigo+=chars.charAt(
+Math.floor(Math.random()*chars.length)
+);
 
-  /* CHECKOUT */
+}
 
-  function abrirCheckout(plano, preco, telas) {
+return codigo;
+}
 
-    planoSelecionado = plano;
-    precoSelecionado = preco;
-    telasSelecionadas = telas;
 
-    document.getElementById("checkoutPlano").textContent =
-      plano;
+function pegarPedidos(){
 
-    document.getElementById("checkoutPreco").textContent =
-      preco;
+return JSON.parse(
+localStorage.getItem("cofreCTPedidos") || "[]"
+);
 
-    document.getElementById("checkoutTelas").textContent =
-      telas;
+}
 
-    document.getElementById("contato").value = "";
 
-    mostrarEtapa(1);
+function salvarPedido(){
 
-    document.getElementById("checkoutModal").style.display =
-      "flex";
-  }
+let pedidos=pegarPedidos();
 
+let index=pedidos.findIndex(
+p=>p.codigo===pedidoAtual.codigo
+);
 
-  function fecharCheckout() {
+if(index>=0){
 
-    document.getElementById("checkoutModal").style.display =
-      "none";
+pedidos[index]=pedidoAtual;
 
-    pedidoAtual = null;
+}else{
 
-    mostrarEtapa(1);
-  }
+pedidos.push(pedidoAtual);
 
+}
 
-  function mostrarEtapa(numero) {
+localStorage.setItem(
+"cofreCTPedidos",
+JSON.stringify(pedidos)
+);
 
-    document
-      .querySelectorAll("#checkoutModal .step")
-      .forEach(step =>
-        step.classList.remove("active")
-      );
+}
 
-    document
-      .getElementById("step" + numero)
-      .classList.add("active");
-  }
 
+/* VALIDADE */
 
-  function irParaPix() {
+function diasDoPlano(plano){
 
-    const contato =
-      document
-        .getElementById("contato")
-        .value
-        .trim();
+if(plano==="1 Mês"){
+return 30;
+}
 
-    if (!contato) {
+if(plano==="1 Mês + Tela Extra"){
+return 30;
+}
 
-      alert("Digite seu WhatsApp ou e-mail.");
+if(plano==="3 Meses"){
+return 90;
+}
 
-      return;
-    }
+if(plano==="6 Meses"){
+return 180;
+}
 
-    mostrarEtapa(2);
-  }
+if(plano==="12 Meses"){
+return 365;
+}
 
+return 30;
+}
 
-  function copiarPix() {
 
-    const codigo =
-      document
-        .getElementById("pixCode")
-        .textContent;
+function calcularExpiracao(plano){
 
-    navigator.clipboard.writeText(codigo);
+const data=new Date();
 
-    alert("Código Pix copiado!");
-  }
+data.setDate(
+data.getDate()+diasDoPlano(plano)
+);
 
+return data;
+}
 
-  function irParaAguardando() {
 
-    criarPedido();
+function formatarData(data){
 
-    mostrarEtapa(3);
-  }
+return data.toLocaleDateString("pt-BR");
 
+}
 
-  function criarPedido() {
 
-    const contato =
-      document
-        .getElementById("contato")
-        .value
-        .trim();
+function diasRestantes(dataString){
 
-    const pedidos =
-      JSON.parse(
-        localStorage.getItem("cofreCTPedidos") || "[]"
-      );
+if(!dataString || dataString==="A definir"){
+return null;
+}
 
-    const numero =
-      Math.floor(
-        100000 + Math.random() * 900000
-      );
+const partes=dataString.split("/");
 
-    pedidoAtual = {
+if(partes.length!==3){
+return null;
+}
 
-      id: "CT-" + numero,
+const data=new Date(
+partes[2],
+partes[1]-1,
+partes[0]
+);
 
-      plano: planoSelecionado,
+const hoje=new Date();
 
-      preco: precoSelecionado,
+hoje.setHours(0,0,0,0);
+data.setHours(0,0,0,0);
 
-      telas: telasSelecionadas,
+const diferenca=data-hoje;
 
-      contato: contato,
+return Math.ceil(
+diferenca/(1000*60*60*24)
+);
 
-      status: "Aguardando pagamento",
 
-      produto: "PRODUTO-DEMO-COFRE-CT",
+/* CHECKOUT */
 
-      criadoEm:
-        new Date().toLocaleString("pt-BR"),
+function abrirCheckout(plano,preco){
 
-      pagoEm: null,
+planoAtual=plano;
+precoAtual=preco;
 
-      expiraEm: null
+document.getElementById("planoEscolhido").innerText=plano;
+document.getElementById("resumoPlano").innerText=plano;
+document.getElementById("resumoPreco").innerText=preco;
 
-    };
+document.getElementById("contato").value="";
 
-    pedidos.push(pedidoAtual);
+etapa(1);
 
-    localStorage.setItem(
-      "cofreCTPedidos",
-      JSON.stringify(pedidos)
-    );
-  }
+document.getElementById("checkout").style.display="flex";
 
+}
 
-  function simularPagamento() {
 
-    if (!pedidoAtual) return;
+function irPix(){
 
-    pedidoAtual.status = "Pago";
+let contato=document.getElementById("contato").value.trim();
 
-    pedidoAtual.pagoEm =
-      new Date().toLocaleString("pt-BR");
+if(!contato){
 
-    const agora = new Date();
+alert("Digite seu WhatsApp ou e-mail.");
 
-    let dias = 30;
+return;
 
-    if (
-      planoSelecionado === "3 Meses"
-    ) dias = 90;
+}
 
-    if (
-      planoSelecionado === "6 Meses"
-    ) dias = 180;
+pedidoAtual={
 
-    if (
-      planoSelecionado === "12 Meses"
-    ) dias = 365;
+codigo:gerarCodigo(),
 
-    agora.setDate(
-      agora.getDate() + dias
-    );
+plano:planoAtual,
 
-    pedidoAtual.expiraEm =
-      agora.toLocaleDateString("pt-BR");
+preco:precoAtual,
 
-    atualizarPedido();
+contato:contato,
 
-    document.getElementById("pedidoGerado")
-      .textContent = pedidoAtual.id;
+status:"Aguardando pagamento",
 
-    mostrarEtapa(4);
-  }
+produto:null,
 
+criadoEm:new Date().toLocaleString("pt-BR"),
 
-  function atualizarPedido() {
+pagoEm:null,
 
-    const pedidos =
-      JSON.parse(
-        localStorage.getItem("cofreCTPedidos") || "[]"
-      );
+expiraEm:null
 
-    const index =
-      pedidos.findIndex(
-        pedido =>
-          pedido.id === pedidoAtual.id
-      );
+};
 
-    if (index !== -1) {
+salvarPedido();
 
-      pedidos[index] = pedidoAtual;
+document.getElementById("pixPlano").innerText=planoAtual;
+document.getElementById("pixPreco").innerText=precoAtual;
 
-      localStorage.setItem(
-        "cofreCTPedidos",
-        JSON.stringify(pedidos)
-      );
-    }
-  }
+etapa(2);
 
+}
 
-  /* ÁREA DO CLIENTE */
 
-  function abrirAreaCliente() {
+function etapa(numero){
 
-    carregarPedidos();
+document.querySelectorAll(".step")
+.forEach(x=>x.classList.remove("active"));
 
-    document.getElementById("clienteModal")
-      .style.display = "flex";
-  }
+document.getElementById("step"+numero)
+.classList.add("active");
 
+}
 
-  function carregarPedidos() {
 
-    const lista =
-      document.getElementById("listaPedidos");
+function copiarPix(){
 
-    const pedidos =
-      JSON.parse(
-        localStorage.getItem("cofreCTPedidos") || "[]"
-      );
+navigator.clipboard.writeText(
+document.getElementById("codigoPix").innerText
+);
 
-    if (!pedidos.length) {
+alert("Código Pix copiado!");
 
-      lista.innerHTML =
-        '<div class="empty">Nenhum pedido encontrado.</div>';
+}
 
-      return;
-    }
 
-    lista.innerHTML = "";
+function aguardando(){
 
-    pedidos
-      .slice()
-      .reverse()
-      .forEach(pedido => {
+document.getElementById("codigoPedido")
+.innerText=pedidoAtual.codigo;
 
-        const div =
-          document.createElement("div");
+etapa(3);
 
-        div.className = "client-order";
+}
 
-        div.innerHTML = `
 
-          <strong>${pedido.id}</strong>
+/* APROVAÇÃO DEMO */
 
-          <p>${pedido.plano}</p>
+function aprovarDemo(){
 
-          <p>R$ ${pedido.preco}</p>
+if(!pedidoAtual)return;
 
-          <span class="status ${
-            pedido.status === "Pago"
-              ? "paid"
-              : "waiting"
-          }">
-            ${pedido.status}
-          </span>
+pedidoAtual.status="Pago";
 
-          ${
-            pedido.expiraEm
-              ? `<p>Expira em: ${pedido.expiraEm}</p>`
-              : ""
-          }
+pedidoAtual.produto="PRODUTO-DEMO-COFRE-CT";
 
-        `;
+pedidoAtual.pagoEm=
+new Date().toLocaleString("pt-BR");
 
-        lista.appendChild(div);
+/* VALIDADE DEMONSTRATIVA */
 
-      });
-  }
+const expiracao=
+calcularExpiracao(pedidoAtual.plano);
 
+pedidoAtual.expiraEm=
+formatarData(expiracao);
 
-  /* CONSULTA */
+salvarPedido();
 
-  function abrirConsultarPedido() {
+document.getElementById("codigoAprovado")
+.innerText=pedidoAtual.codigo;
 
-    document.getElementById("codigoConsulta")
-      .value = "";
+document.getElementById("aprovadoPlano")
+.innerText=pedidoAtual.plano;
 
-    document.getElementById("resultadoConsulta")
-      .innerHTML = "";
+document.getElementById("aprovadoPreco")
+.innerText=pedidoAtual.preco;
 
-    document.getElementById("consultaModal")
-      .style.display = "flex";
-  }
+document.getElementById("aprovadoValidade")
+.innerText=
+pedidoAtual.expiraEm;
 
+etapa(4);
 
-  function consultarPedido() {
+}
 
-    const codigo =
-      document
-        .getElementById("codigoConsulta")
-        .value
-        .trim()
-        .toUpperCase();
 
-    const pedidos =
-      JSON.parse(
-        localStorage.getItem("cofreCTPedidos") || "[]"
-      );
+/* ÁREA DO CLIENTE */
 
-    const pedido =
-      pedidos.find(
-        item => item.id === codigo
-      );
+function abrirCliente(){
 
-    const resultado =
-      document.getElementById("resultadoConsulta");
+let pedidos=pegarPedidos();
 
-    if (!pedido) {
+let html="";
 
-      resultado.innerHTML = `
+if(pedidos.length===0){
 
-        <div class="order-box">
+html=`
+<div class="warning">
+Nenhum pedido encontrado neste navegador.
+</div>
+`;
 
-          <p style="color:#e50914;">
-            Pedido não encontrado.
-          </p>
+}else{
 
-        </div>
+pedidos.slice().reverse().forEach(p=>{
 
-      `;
+let classe=
+p.status==="Pago" ? "paid":"pending";
 
-      return;
-    }
+let texto=
+p.status==="Pago"
+? "🟢 Pago"
+: "🟡 Aguardando pagamento";
 
-    resultado.innerHTML = `
+let validade="";
 
-      <div class="order-box">
+if(p.expiraEm){
 
-        <p>
-          Pedido:
-          <strong>${pedido.id}</strong>
-        </p>
+let dias=diasRestantes(p.expiraEm);
 
-        <p>
-          Plano:
-          <strong>${pedido.plano}</strong>
-        </p>
+validade=`
 
-        <p>
-          Valor:
-          <strong>R$ ${pedido.preco}</strong>
-        </p>
+<div class="expire-box">
 
-        <p>
-          Status:
-          <strong>${pedido.status}</strong>
-        </p>
+Validade:
+<strong>${p.expiraEm}</strong>
 
-        ${
-          pedido.expiraEm
-            ? `
-              <p>
-                Expira em:
-                <strong>${pedido.expiraEm}</strong>
-              </p>
-            `
-            : ""
-        }
+${
+dias!==null
+?
+`<small style="color:#777">Restam ${Math.max(dias,0)} dia(s)</small>`
+:
+""
+}
 
-      </div>
+</div>
 
-    `;
-  }
+`;
 
+}
 
-  /* INFORMAÇÕES */
+html+=`
 
-  function abrirInfo(tipo) {
+<div class="history-item">
 
-    let titulo = "";
-    let texto = "";
+<strong>${p.codigo}</strong>
 
-    if (tipo === "Termos") {
+<small>
+${p.plano} • ${p.preco}
+</small>
 
-      titulo = "Termos";
+<div class="status ${classe}" style="margin-top:10px">
+${texto}
+</div>
 
-      texto =
-        "Os termos completos serão adicionados antes do lançamento oficial da plataforma.";
-    }
+${validade}
 
-    if (tipo === "Privacidade") {
+<button
+class="buy"
+onclick="verPedido('${p.codigo}')">
+Ver pedido
+</button>
 
-      titulo = "Privacidade";
+</div>
 
-      texto =
-        "As informações fornecidas no checkout serão utilizadas para gerenciamento dos pedidos. A política completa será adicionada antes do lançamento oficial.";
-    }
+`;
 
-    if (tipo === "Suporte") {
+});
 
-      titulo = "Suporte";
+}
 
-      texto =
-        "Para dúvidas e informações, converse com nossa IA usando o botão de atendimento disponível no site.";
-    }
+document.getElementById("historico")
+.innerHTML=html;
 
-    document.getElementById("infoTitulo")
-      .textContent = titulo;
+document.getElementById("cliente")
+.style.display="flex";
 
-    document.getElementById("infoTexto")
-      .textContent = texto;
+}
 
-    document.getElementById("infoModal")
-      .style.display = "flex";
-  }
 
+function verPedido(codigo){
 
-  function fecharModal(id) {
+let pedidos=pegarPedidos();
 
-    document.getElementById(id)
-      .style.display = "none";
-  }
+let p=pedidos.find(x=>x.codigo===codigo);
 
+if(!p)return;
 
-  /* FECHAR CLICANDO FORA */
+fechar("cliente");
 
-  window.onclick = function(event) {
+document.getElementById("codigoConsulta").value=codigo;
 
-    document
-      .querySelectorAll(".modal")
-      .forEach(modal => {
+consultar();
 
-        if (event.target === modal) {
+document.getElementById("consulta")
+.style.display="flex";
 
-          modal.style.display = "none";
+}
 
-        }
 
-      });
+/* CONSULTA */
 
-  };
+function abrirConsulta(){
+
+document.getElementById("codigoConsulta").value="";
+
+document.getElementById("resultado").innerHTML="";
+
+document.getElementById("consulta")
+.style.display="flex";
+
+}
+
+
+function consultar(){
+
+let codigo=
+document.getElementById("codigoConsulta")
+.value.trim()
+.toUpperCase();
+
+let pedidos=pegarPedidos();
+
+let p=pedidos.find(
+x=>x.codigo===codigo
+);
+
+if(!p){
+
+document.getElementById("resultado")
+.innerHTML=`
+<div class="warning">
+Pedido não encontrado neste navegador.
+</div>
+`;
+
+return;
+
+}
+
+let classe=
+p.status==="Pago" ? "paid":"pending";
+
+let status=
+p.status==="Pago"
+? "🟢 Pago"
+: "🟡 Aguardando pagamento";
+
+let entrega="";
+
+let validade="";
+
+if(p.expiraEm){
+
+let dias=diasRestantes(p.expiraEm);
+
+validade=`
+
+<div class="expire-box">
+
+Validade do acesso
+
+<strong>
+${p.expiraEm}
+</strong>
+
+${
+dias!==null
+?
+`<small style="color:#777">Restam ${Math.max(dias,0)} dia(s)</small>`
+:
+""
+}
+
+</div>
+
+`;
+
+}
+
+if(p.status==="Pago"){
+
+entrega=`
+
+<div class="delivery">
+
+<h3>
+📦 Produto liberado
+</h3>
+
+<p>
+Sua entrega de demonstração:
+</p>
+
+<div class="product-demo">
+${p.produto}
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("resultado")
+.innerHTML=`
+
+<div class="order-code">
+
+<small>
+Número do pedido
+</small>
+
+<strong>
+${p.codigo}
+</strong>
+
+</div>
+
+<div class="status ${classe}">
+${status}
+</div>
+
+<div class="summary">
+
+<div>
+<span>Plano</span>
+<strong>${p.plano}</strong>
+</div>
+
+<div>
+<span>Valor</span>
+<strong>${p.preco}</strong>
+</div>
+
+<div>
+<span>Criado</span>
+<strong>${p.criadoEm}</strong>
+</div>
+
+${
+p.pagoEm
+?
+`
+<div>
+<span>Pago em</span>
+<strong>${p.pagoEm}</strong>
+</div>
+`
+:""
+}
+
+</div>
+
+${validade}
+
+${entrega}
+
+`;
+
+}
+
+
+/* FAQ */
+
+function toggleFaq(button){
+
+const item=button.parentElement;
+
+item.classList.toggle("open");
+
+}
+
+
+/* INFORMAÇÕES */
+
+function abrirInfo(tipo){
+
+let conteudo="";
+
+if(tipo==="termos"){
+
+conteudo=`
+
+<div class="step-title">
+Informações
+</div>
+
+<h2>
+Termos de uso
+</h2>
+
+<p>
+Ao utilizar o Cofre CT, o usuário concorda em fornecer
+informações verdadeiras durante o processo de compra.
+</p>
+
+<p>
+Os produtos e serviços disponibilizados devem ser utilizados
+de acordo com suas respectivas condições de uso.
+</p>
+
+<p>
+As regras definitivas serão atualizadas quando o sistema
+comercial estiver totalmente implementado.
+</p>
+
+`;
+
+}
+
+
+if(tipo==="privacidade"){
+
+conteudo=`
+
+<div class="step-title">
+Informações
+</div>
+
+<h2>
+Privacidade
+</h2>
+
+<p>
+O Cofre CT utiliza informações fornecidas pelo usuário
+para organizar pedidos e atendimento.
+</p>
+
+<p>
+Nesta versão demonstrativa, os pedidos ficam armazenados
+localmente no navegador através do localStorage.
+</p>
+
+<p>
+Quando o sistema real for conectado, esta seção deverá
+ser atualizada de acordo com o armazenamento e tratamento
+efetivamente utilizados.
+</p>
+
+`;
+
+}
+
+
+if(tipo==="suporte"){
+
+conteudo=`
+
+<div class="step-title">
+Atendimento
+</div>
+
+<h2>
+Precisa de ajuda?
+</h2>
+
+<p>
+Para tirar dúvidas e obter mais informações sobre a
+Cofre CT, converse com nossa IA.
+</p>
+
+<a
+class="ai-btn"
+href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
+target="_blank"
+rel="noopener noreferrer"
+style="width:100%;margin-top:5px;">
+🤖 CONVERSAR COM NOSSA IA
+</a>
+
+`;
+
+}
+
+document.getElementById("infoConteudo")
+.innerHTML=conteudo;
+
+document.getElementById("info")
+.style.display="flex";
+
+}
+
+
+/* FECHAR */
+
+function fechar(id){
+
+document.getElementById(id)
+.style.display="none";
+
+}
+
+
+/* FECHAR CLICANDO FORA */
+
+window.onclick=function(event){
+
+if(event.target.classList.contains("modal")){
+
+event.target.style.display="none";
+
+}
+
+};
 
 </script>
 
