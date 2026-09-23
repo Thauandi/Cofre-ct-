@@ -1,1485 +1,1785 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Cofre CT</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    :root {
-      --red: #e50914;
-      --red-dark: #8b0000;
-      --black: #070707;
-      --dark: #111;
-      --gray: #1b1b1b;
-      --white: #f5f5f5;
-    }
-
-    body {
-      background:
-        radial-gradient(circle at 15% 20%, rgba(229,9,20,.16), transparent 25%),
-        radial-gradient(circle at 85% 75%, rgba(229,9,20,.12), transparent 25%),
-        linear-gradient(135deg, #050505 0%, #111 45%, #080808 100%);
-      color: var(--white);
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* TEXTURA DA PAREDE */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .28;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,.025) 0px,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px,
-          transparent 4px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,.018) 0px,
-          rgba(255,255,255,.018) 1px,
-          transparent 1px,
-          transparent 6px
-        );
-      z-index: -1;
-    }
-
-    /* MANCHAS DE SPRAY */
-    body::after {
-      content: "";
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      right: -250px;
-      top: 100px;
-      background:
-        radial-gradient(
-          circle,
-          rgba(229,9,20,.2) 0%,
-          rgba(229,9,20,.08) 30%,
-          transparent 70%
-        );
-      filter: blur(20px);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    header {
-      height: 72px;
-      padding: 0 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(5,5,5,.88);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      transform: rotate(-2deg);
-    }
-
-    .logo span {
-      color: var(--red);
-    }
-
-    nav {
-      display: flex;
-      gap: 10px;
-    }
-
-    nav button {
-      border: 1px solid #333;
-      background: #111;
-      color: #ddd;
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    nav button:hover {
-      border-color: var(--red);
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    /* RABISCOS DECORATIVOS */
-    .graffiti {
-      position: absolute;
-      pointer-events: none;
-      user-select: none;
-      font-weight: 900;
-      color: rgba(255,255,255,.035);
-      transform: rotate(-12deg);
-      font-size: 110px;
-      z-index: -1;
-    }
-
-    .graffiti.one {
-      top: 150px;
-      left: -30px;
-    }
-
-    .graffiti.two {
-      top: 550px;
-      right: -50px;
-      transform: rotate(10deg);
-    }
-
-    .graffiti.three {
-      bottom: 150px;
-      left: 5%;
-      font-size: 75px;
-      color: rgba(229,9,20,.08);
-      transform: rotate(-5deg);
-    }
-
-    .slash {
-      position: absolute;
-      width: 300px;
-      height: 15px;
-      background: var(--red);
-      opacity: .12;
-      transform: rotate(-35deg);
-      filter: blur(1px);
-      z-index: -1;
-    }
-
-    .slash.one {
-      top: 250px;
-      left: -80px;
-    }
-
-    .slash.two {
-      top: 480px;
-      right: -100px;
-      transform: rotate(35deg);
-    }
-
-    main {
-      width: 90%;
-      max-width: 1150px;
-      margin: auto;
-    }
-
-    .hero {
-      padding: 90px 0 55px;
-      position: relative;
-    }
-
-    .tag {
-      display: inline-block;
-      color: var(--red);
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      margin-bottom: 14px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      font-size: clamp(45px, 8vw, 90px);
-      line-height: .9;
-      font-weight: 1000;
-      max-width: 850px;
-      letter-spacing: -5px;
-    }
-
-    .hero h1 span {
-      color: var(--red);
-      text-shadow:
-        3px 3px 0 #400000,
-        0 0 25px rgba(229,9,20,.18);
-    }
-
-    .hero p {
-      margin-top: 25px;
-      max-width: 650px;
-      color: #aaa;
-      font-size: 17px;
-      line-height: 1.6;
-    }
-
-    .plans-title {
-      margin-bottom: 20px;
-      font-size: 25px;
-    }
-
-    .plans {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      padding-bottom: 40px;
-    }
-
-    .plan {
-      background:
-        linear-gradient(
-          145deg,
-          rgba(30,30,30,.95),
-          rgba(8,8,8,.97)
-        );
-      border: 1px solid #2c2c2c;
-      border-radius: 14px;
-      padding: 25px;
-      position: relative;
-      overflow: hidden;
-      transition: .25s;
-      box-shadow: 0 15px 40px rgba(0,0,0,.25);
-    }
-
-    .plan::before {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      right: -90px;
-      top: -90px;
-      background: var(--red);
-      opacity: .1;
-      transform: rotate(25deg);
-    }
-
-    .plan:hover {
-      transform: translateY(-6px) rotate(-.5deg);
-      border-color: rgba(229,9,20,.6);
-      box-shadow: 0 20px 50px rgba(0,0,0,.45);
-    }
-
-    .plan.featured {
-      border-color: var(--red);
-      box-shadow: 0 0 30px rgba(229,9,20,.12);
-    }
-
-    .badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: var(--red);
-      color: white;
-      padding: 5px 9px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: bold;
-    }
-
-    .plan h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .price {
-      font-size: 35px;
-      font-weight: 900;
-      margin: 15px 0;
-    }
-
-    .price small {
-      font-size: 13px;
-      color: #888;
-      font-weight: normal;
-    }
-
-    .plan ul {
-      list-style: none;
-      color: #aaa;
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-
-    .plan li::before {
-      content: "✓";
-      color: var(--red);
-      margin-right: 8px;
-      font-weight: bold;
-    }
-
-    .buy {
-      width: 100%;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      background: var(--red);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .buy:hover {
-      background: #ff1824;
-      transform: scale(1.02);
-    }
-
-    .info {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin: 25px 0 70px;
-    }
-
-    .info-box {
-      background: rgba(17,17,17,.8);
-      border: 1px solid #252525;
-      padding: 22px;
-      border-radius: 12px;
-    }
-
-    .info-box strong {
-      display: block;
-      margin-bottom: 7px;
-    }
-
-    .info-box p {
-      color: #888;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      background: #070707;
-      padding: 35px 7%;
-      color: #666;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    /* MODAIS */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.78);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 520px;
-      background:
-        linear-gradient(145deg, #171717, #090909);
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 28px;
-      position: relative;
-      box-shadow: 0 30px 100px rgba(0,0,0,.7);
-    }
-
-    .close {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      background: none;
-      border: none;
-      color: #777;
-      font-size: 25px;
-      cursor: pointer;
-    }
-
-    .close:hover {
-      color: white;
-    }
-
-    .modal h2 {
-      margin-bottom: 8px;
-    }
-
-    .modal-sub {
-      color: #888;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .input {
-      width: 100%;
-      padding: 13px;
-      background: #0c0c0c;
-      border: 1px solid #333;
-      color: white;
-      border-radius: 8px;
-      outline: none;
-      margin: 8px 0 15px;
-    }
-
-    .input:focus {
-      border-color: var(--red);
-    }
-
-    .pix-area {
-      text-align: center;
-    }
-
-    .pix-area img {
-      width: 200px;
-      height: 200px;
-      margin: 15px auto;
-      background: white;
-      padding: 8px;
-      border-radius: 10px;
-    }
-
-    .pix-code {
-      background: #050505;
-      border: 1px solid #292929;
-      padding: 13px;
-      border-radius: 8px;
-      color: #aaa;
-      font-size: 12px;
-      word-break: break-all;
-      margin-bottom: 10px;
-    }
-
-    .step {
-      display: none;
-    }
-
-    .step.active {
-      display: block;
-    }
-
-    .success {
-      text-align: center;
-    }
-
-    .success-icon {
-      width: 70px;
-      height: 70px;
-      margin: 10px auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(0,200,80,.12);
-      color: #20d66b;
-      font-size: 35px;
-    }
-
-    .order-box {
-      background: #0b0b0b;
-      border: 1px solid #282828;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 15px 0;
-    }
-
-    .order-box p {
-      color: #888;
-      margin: 6px 0;
-      font-size: 14px;
-    }
-
-    .order-box strong {
-      color: white;
-    }
-
-    .loading {
-      width: 45px;
-      height: 45px;
-      border: 4px solid #333;
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 25px auto;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .client-orders {
-      max-height: 350px;
-      overflow-y: auto;
-    }
-
-    .client-order {
-      border: 1px solid #282828;
-      background: #0b0b0b;
-      padding: 15px;
-      border-radius: 9px;
-      margin-bottom: 10px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 5px;
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    .status.waiting {
-      background: rgba(255,180,0,.1);
-      color: #ffc400;
-    }
-
-    .status.paid {
-      background: rgba(0,200,80,.1);
-      color: #20d66b;
-    }
-
-    .empty {
-      text-align: center;
-      color: #666;
-      padding: 30px 0;
-    }
-
-    @media (max-width: 850px) {
-      .plans {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .info {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding: 0 5%;
-      }
-
-      nav button {
-        font-size: 11px;
-        padding: 8px 9px;
-      }
-
-      .hero {
-        padding-top: 65px;
-      }
-
-      .hero h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
-      }
-
-      .plans {
-        grid-template-columns: 1fr;
-      }
-
-      .graffiti {
-        font-size: 70px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cofre CT</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(229,9,20,.12),transparent 25%),
+    radial-gradient(circle at 85% 70%,rgba(229,9,20,.08),transparent 25%),
+    #080808;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* TEXTURA URBANA */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.08;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      #fff 4px
+    );
+  z-index:-1;
+}
+
+/* RABISCOS */
+
+.graffiti{
+  position:fixed;
+  color:#fff;
+  opacity:.06;
+  font-weight:900;
+  pointer-events:none;
+  user-select:none;
+  z-index:-1;
+}
+
+.g1{
+  top:20%;
+  left:-40px;
+  font-size:100px;
+  transform:rotate(-15deg);
+}
+
+.g2{
+  bottom:15%;
+  right:-30px;
+  font-size:110px;
+  transform:rotate(12deg);
+}
+
+.g3{
+  top:55%;
+  left:5%;
+  font-size:45px;
+  color:#e50914;
+  transform:rotate(-20deg);
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 6%;
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #292929;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+.logo span{
+  color:#e50914;
+}
+
+.header-buttons{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.header-btn{
+  background:#151515;
+  border:1px solid #333;
+  color:white;
+  padding:9px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.2s;
+}
+
+.header-btn:hover{
+  border-color:#e50914;
+  transform:translateY(-2px);
+}
+
+.pix{
+  padding:8px 14px;
+  border:1px solid #e50914;
+  border-radius:20px;
+  font-size:12px;
+  color:#fff;
+}
+
+/* HERO */
+
+.hero{
+  min-height:540px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:80px 20px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:180px;
+  background:#e50914;
+  opacity:.08;
+  filter:blur(70px);
+  transform:rotate(-15deg);
+}
+
+.hero h1{
+  position:relative;
+  font-size:clamp(42px,8vw,82px);
+  line-height:.95;
+  font-weight:900;
+  letter-spacing:-4px;
+  text-transform:uppercase;
+  text-shadow:5px 5px 0 rgba(229,9,20,.12);
+}
+
+.hero h1 span{
+  color:#e50914;
+}
+
+.hero .street{
+  margin-top:15px;
+  color:#666;
+  font-size:12px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+}
+
+.hero p{
+  max-width:650px;
+  margin-top:22px;
+  color:#999;
+  line-height:1.7;
+}
+
+.hero-line{
+  width:150px;
+  height:4px;
+  background:#e50914;
+  margin-top:28px;
+  transform:skew(-25deg);
+  box-shadow:30px 0 0 #333;
+}
+
+/* PLANOS */
+
+.section-title{
+  width:90%;
+  max-width:1100px;
+  margin:0 auto 25px;
+}
+
+.section-title h2{
+  font-size:28px;
+  text-transform:uppercase;
+}
+
+.section-title span{
+  color:#e50914;
+}
+
+.plans{
+  width:90%;
+  max-width:1100px;
+  margin:auto;
+  padding-bottom:80px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+}
+
+.card{
+  position:relative;
+  background:
+    linear-gradient(145deg,#151515,#0d0d0d);
+  border:1px solid #292929;
+  border-radius:14px;
+  padding:25px;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.card::after{
+  content:"CT";
+  position:absolute;
+  right:-15px;
+  bottom:-25px;
+  font-size:80px;
+  font-weight:900;
+  color:#fff;
+  opacity:.025;
+  transform:rotate(-15deg);
+}
+
+.card:hover{
+  transform:translateY(-7px) rotate(-.5deg);
+  border-color:#e50914;
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.popular{
+  border-color:#e50914;
+}
+
+.tag{
+  display:inline-block;
+  background:#e50914;
+  padding:5px 10px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.card h2{
+  font-size:20px;
+}
+
+.price{
+  font-size:32px;
+  font-weight:900;
+  margin:18px 0;
+}
+
+.card ul{
+  list-style:none;
+  color:#999;
+  line-height:2;
+  margin-bottom:20px;
+}
+
+.card li::before{
+  content:"/";
+  color:#e50914;
+  font-weight:bold;
+  margin-right:8px;
+}
+
+.buy{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:7px;
+  background:#e50914;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.buy:hover{
+  background:#ff1722;
+  transform:translateY(-2px);
+}
+
+.secondary{
+  background:#222;
+  margin-top:10px;
+}
+
+.secondary:hover{
+  background:#333;
+}
+
+/* INFO */
+
+.info-grid{
+  width:90%;
+  max-width:1000px;
+  margin:0 auto 70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.info-box{
+  padding:22px;
+  background:#101010;
+  border:1px solid #242424;
+  border-radius:12px;
+}
+
+.info-box h3{
+  margin-bottom:8px;
+}
+
+.info-box p{
+  color:#777;
+  line-height:1.6;
+  font-size:13px;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid #222;
+  padding:30px 6%;
+  text-align:center;
+  color:#555;
+  font-size:12px;
+}
+
+.footer-links{
+  margin-bottom:12px;
+}
+
+.footer-links button{
+  background:none;
+  border:0;
+  color:#777;
+  margin:0 8px;
+  cursor:pointer;
+}
+
+.footer-links button:hover{
+  color:#e50914;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  backdrop-filter:blur(5px);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
+  overflow-y:auto;
+}
+
+.modal-box{
+  width:100%;
+  max-width:470px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#111;
+  border:1px solid #e50914;
+  border-radius:15px;
+  padding:28px;
+  position:relative;
+  box-shadow:0 0 60px rgba(229,9,20,.12);
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  background:none;
+  border:0;
+  color:white;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.step{
+  display:none;
+}
+
+.step.active{
+  display:block;
+}
+
+.step-title{
+  color:#e50914;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.modal-box h2{
+  margin-bottom:8px;
+}
+
+.modal-box p{
+  color:#999;
+  margin-bottom:18px;
+  line-height:1.5;
+}
+
+.summary{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:9px;
+  padding:14px;
+  margin-bottom:15px;
+}
+
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:7px 0;
+  color:#888;
+}
+
+.summary strong{
+  color:#fff;
+  text-align:right;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#080808;
+  border:1px solid #333;
+  border-radius:7px;
+  color:#fff;
+  outline:none;
+}
+
+input:focus{
+  border-color:#e50914;
+}
+
+.notice{
+  text-align:center;
+  color:#666;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+/* PIX */
+
+.pix-box{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:10px;
+  padding:18px;
+  text-align:center;
+  margin-bottom:14px;
+}
+
+.qr{
+  width:180px;
+  height:180px;
+  background:#fff;
+  padding:8px;
+  margin:0 auto 15px;
+  border-radius:7px;
+}
+
+.qr img{
+  width:100%;
+  height:100%;
+}
+
+.pix-code{
+  background:#151515;
+  border:1px solid #333;
+  border-radius:7px;
+  padding:10px;
+  font-size:11px;
+  color:#aaa;
+  word-break:break-all;
+  text-align:left;
+  margin-bottom:10px;
+}
+
+.copy{
+  width:100%;
+  padding:10px;
+  background:transparent;
+  color:#fff;
+  border:1px solid #e50914;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.warning{
+  background:rgba(229,9,20,.07);
+  border:1px solid rgba(229,9,20,.25);
+  color:#999;
+  padding:10px;
+  border-radius:7px;
+  font-size:11px;
+  line-height:1.5;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+/* PEDIDO */
+
+.order-code{
+  background:#080808;
+  border:1px dashed #e50914;
+  border-radius:8px;
+  padding:13px;
+  text-align:center;
+  margin:15px 0;
+}
+
+.order-code small{
+  display:block;
+  color:#666;
+  font-size:10px;
+  margin-bottom:5px;
+}
+
+.order-code strong{
+  font-size:20px;
+  letter-spacing:2px;
+}
+
+.status{
+  padding:10px;
+  text-align:center;
+  border-radius:7px;
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+.pending{
+  color:#f0a500;
+  background:#19150c;
+}
+
+.paid{
+  color:#35d07f;
+  background:#0b1b12;
+}
+
+.delivery{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:9px;
+  padding:15px;
+  margin-top:15px;
+}
+
+.delivery h3{
+  margin-bottom:8px;
+}
+
+.delivery p{
+  margin-bottom:10px;
+}
+
+.product-demo{
+  padding:13px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:7px;
+  color:#ddd;
+  font-size:13px;
+  word-break:break-word;
+}
+
+/* CONSULTA */
+
+.result{
+  margin-top:15px;
+}
+
+.history-item{
+  background:#080808;
+  border:1px solid #292929;
+  padding:13px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.history-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.history-item small{
+  color:#777;
+}
+
+/* LOADING */
+
+.loading{
+  width:45px;
+  height:45px;
+  border:4px solid #333;
+  border-top-color:#e50914;
+  border-radius:50%;
+  margin:15px auto 20px;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.success{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#e50914;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:5px auto 20px;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.center{
+  text-align:center;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:600px){
+
+  header{
+    flex-wrap:wrap;
+    padding:16px 5%;
+  }
+
+  .header-buttons{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .pix{
+    display:none;
+  }
+
+  .hero{
+    min-height:470px;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+
+  .plans{
+    width:92%;
+  }
+
+  .modal-box{
+    padding:23px;
+  }
+}
+</style>
 </head>
+
 
 <body>
 
-  <!-- ELEMENTOS DE GRAFFITI -->
-  <div class="graffiti one">CT</div>
-  <div class="graffiti two">STREET</div>
-  <div class="graffiti three">COFRE</div>
+<div class="graffiti g1">CT</div>
+<div class="graffiti g2">STREET</div>
+<div class="graffiti g3">///</div>
 
-  <div class="slash one"></div>
-  <div class="slash two"></div>
 
-  <header>
-    <div class="logo">
-      COFRE <span>CT</span>
+<header>
+
+  <div class="logo">
+    COFRE <span>CT</span>
+  </div>
+
+  <div class="header-buttons">
+
+    <button class="header-btn" onclick="abrirCliente()">
+      Área do cliente
+    </button>
+
+    <button class="header-btn" onclick="abrirConsulta()">
+      Consultar pedido
+    </button>
+
+    <div class="pix">
+      PIX • CARTÃO
     </div>
 
-    <nav>
-      <button onclick="abrirAreaCliente()">Área do cliente</button>
-      <button onclick="abrirConsultarPedido()">Consultar pedido</button>
-    </nav>
-  </header>
+  </div>
 
-  <main>
-
-    <section class="hero">
-
-      <div class="tag">ACESSO • DIGITAL • CT</div>
-
-      <h1>
-        SEU ACESSO.<br>
-        SEU <span>ESPAÇO.</span>
-      </h1>
-
-      <p>
-        Escolha seu plano, faça seu pedido e acompanhe tudo
-        diretamente pela Cofre CT.
-      </p>
-
-    </section>
-
-    <h2 class="plans-title">Escolha seu plano</h2>
-
-    <section class="plans">
-
-      <div class="plan">
-        <h3>1 Mês</h3>
-
-        <div class="price">
-          R$ 24,90
-        </div>
-
-        <ul>
-          <li>1 tela</li>
-          <li>Acesso por 30 dias</li>
-          <li>Suporte</li>
-        </ul>
-
-        <button class="buy"
-          onclick="abrirCheckout('1 Mês','24,90','1 tela')">
-          Comprar
-        </button>
-      </div>
+</header>
 
 
-      <div class="plan featured">
+<section class="hero">
 
-        <div class="badge">
-          MAIS VENDIDO
-        </div>
+  <div class="street">
+    STREET ACCESS • COFRE CT
+  </div>
 
-        <h3>1 Mês + Tela Extra</h3>
+  <h1>
+    Seu acesso.<br>
+    <span>Seu espaço.</span>
+  </h1>
 
-        <div class="price">
-          R$ 29,90
-        </div>
+  <p>
+    Escolha seu plano, faça seu pedido e acompanhe
+    tudo pelo Cofre CT.
+  </p>
 
-        <ul>
-          <li>2 telas</li>
-          <li>Uso simultâneo</li>
-          <li>Acesso por 30 dias</li>
-          <li>Suporte</li>
-        </ul>
+  <div class="hero-line"></div>
 
-        <button class="buy"
-          onclick="abrirCheckout('1 Mês + Tela Extra','29,90','2 telas')">
-          Comprar
-        </button>
-      </div>
+</section>
 
 
-      <div class="plan">
-
-        <h3>3 Meses</h3>
-
-        <div class="price">
-          R$ 52,90
-        </div>
-
-        <ul>
-          <li>2 telas</li>
-          <li>Uso simultâneo</li>
-          <li>Acesso por 90 dias</li>
-          <li>Suporte</li>
-        </ul>
-
-        <button class="buy"
-          onclick="abrirCheckout('3 Meses','52,90','2 telas')">
-          Comprar
-        </button>
-      </div>
+<div class="section-title">
+  <h2>
+    Escolha seu <span>plano</span>
+  </h2>
+</div>
 
 
-      <div class="plan">
+<section class="plans">
 
-        <h3>6 Meses</h3>
+  <div class="card">
 
-        <div class="price">
-          R$ 99,90
-        </div>
+    <h2>1 Mês</h2>
 
-        <ul>
-          <li>2 telas</li>
-          <li>Uso simultâneo</li>
-          <li>Acesso por 180 dias</li>
-          <li>Suporte</li>
-        </ul>
+    <div class="price">
+      R$ 24,90
+    </div>
 
-        <button class="buy"
-          onclick="abrirCheckout('6 Meses','99,90','2 telas')">
-          Comprar
-        </button>
-      </div>
+    <ul>
+      <li>1 tela</li>
+      <li>Ativação após confirmação</li>
+      <li>Suporte</li>
+    </ul>
 
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês','R$ 24,90')">
+      Comprar
+    </button>
 
-      <div class="plan">
-
-        <h3>12 Meses</h3>
-
-        <div class="price">
-          R$ 169,90
-        </div>
-
-        <ul>
-          <li>2 telas</li>
-          <li>Uso simultâneo</li>
-          <li>Acesso por 1 ano</li>
-          <li>Suporte</li>
-        </ul>
-
-        <button class="buy"
-          onclick="abrirCheckout('12 Meses','169,90','2 telas')">
-          Comprar
-        </button>
-      </div>
-
-    </section>
+  </div>
 
 
-    <section class="info">
+  <div class="card popular">
 
-      <div class="info-box">
-        <strong>⚡ Rápido</strong>
-        <p>
-          Processo simples e direto para você realizar seu pedido.
-        </p>
-      </div>
+    <div class="tag">
+      MAIS VENDIDO
+    </div>
 
-      <div class="info-box">
-        <strong>🔒 Seguro</strong>
-        <p>
-          Seus pedidos ficam registrados para consulta.
-        </p>
-      </div>
+    <h2>
+      1 Mês + Tela Extra
+    </h2>
 
-      <div class="info-box">
-        <strong>📦 Entrega</strong>
-        <p>
-          Após a confirmação, seu acesso será disponibilizado.
-        </p>
-      </div>
+    <div class="price">
+      R$ 29,90
+    </div>
 
-    </section>
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
 
-  </main>
+    <button class="buy"
+      onclick="abrirCheckout('1 Mês + Tela Extra','R$ 29,90')">
+      Comprar
+    </button>
+
+  </div>
 
 
-  <footer>
+  <div class="card">
 
+    <h2>3 Meses</h2>
+
+    <div class="price">
+      R$ 52,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('3 Meses','R$ 52,90')">
+      Comprar
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>6 Meses</h2>
+
+    <div class="price">
+      R$ 99,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('6 Meses','R$ 99,90')">
+      Comprar
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>12 Meses</h2>
+
+    <div class="price">
+      R$ 169,90
+    </div>
+
+    <ul>
+      <li>2 telas</li>
+      <li>Uso simultâneo</li>
+      <li>Ativação após confirmação</li>
+    </ul>
+
+    <button class="buy"
+      onclick="abrirCheckout('12 Meses','R$ 169,90')">
+      Comprar
+    </button>
+
+  </div>
+
+</section>
+
+
+<section class="info-grid">
+
+  <div class="info-box">
+    <h3>⚡ Rápido</h3>
     <p>
-      © 2026 Cofre CT — Todos os direitos reservados.
+      Pedido simples e acompanhamento direto pelo site.
     </p>
+  </div>
 
-    <p style="margin-top:10px;">
-      <button
-        onclick="abrirInfo('Termos')"
-        style="background:none;border:none;color:#777;cursor:pointer;">
-        Termos
-      </button>
-
-      •
-
-      <button
-        onclick="abrirInfo('Privacidade')"
-        style="background:none;border:none;color:#777;cursor:pointer;">
-        Privacidade
-      </button>
-
-      •
-
-      <button
-        onclick="abrirInfo('Suporte')"
-        style="background:none;border:none;color:#777;cursor:pointer;">
-        Suporte
-      </button>
+  <div class="info-box">
+    <h3>🔒 Seguro</h3>
+    <p>
+      A estrutura foi preparada para receber um sistema
+      seguro de backend futuramente.
     </p>
+  </div>
 
-  </footer>
+  <div class="info-box">
+    <h3>📦 Entrega</h3>
+    <p>
+      A estrutura de entrega já está preparada para
+      receber o produto após a confirmação.
+    </p>
+  </div>
 
-
-  <!-- CHECKOUT -->
-
-  <div class="modal" id="checkoutModal">
-
-    <div class="modal-box">
-
-      <button class="close" onclick="fecharCheckout()">×</button>
-
-
-      <!-- ETAPA 1 -->
-
-      <div class="step active" id="step1">
-
-        <h2>Finalizar pedido</h2>
-
-        <p class="modal-sub">
-          Confira seu plano antes de continuar.
-        </p>
-
-        <div class="order-box">
-
-          <p>
-            Plano:
-            <strong id="checkoutPlano"></strong>
-          </p>
-
-          <p>
-            Valor:
-            <strong>R$ <span id="checkoutPreco"></span></strong>
-          </p>
-
-          <p>
-            Telas:
-            <strong id="checkoutTelas"></strong>
-          </p>
-
-        </div>
-
-        <input
-          class="input"
-          id="contato"
-          placeholder="Seu WhatsApp ou e-mail"
-        >
-
-        <button class="buy" onclick="irParaPix()">
-          Continuar
-        </button>
-
-      </div>
+</section>
 
 
-      <!-- ETAPA 2 -->
+<footer>
 
-      <div class="step" id="step2">
+  <div class="footer-links">
 
-        <h2>Pagamento via Pix</h2>
+    <button onclick="abrirInfo('termos')">
+      Termos
+    </button>
 
-        <p class="modal-sub">
-          Escaneie o QR Code ou copie o código Pix.
-        </p>
+    <button onclick="abrirInfo('privacidade')">
+      Privacidade
+    </button>
 
-        <div class="pix-area">
-
-          <img
-            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-DEMONSTRACAO-COFRE-CT"
-            alt="QR Code Pix"
-          >
-
-          <div class="pix-code" id="pixCode">
-            PIX-DEMONSTRACAO-COFRE-CT
-          </div>
-
-          <button
-            class="buy"
-            onclick="copiarPix()">
-            Copiar código Pix
-          </button>
-
-        </div>
-
-        <button
-          onclick="irParaAguardando()"
-          style="
-            width:100%;
-            margin-top:10px;
-            padding:12px;
-            border-radius:8px;
-            border:1px solid #333;
-            background:#111;
-            color:#aaa;
-            cursor:pointer;
-          ">
-          Já fiz o pagamento
-        </button>
-
-      </div>
-
-
-      <!-- ETAPA 3 -->
-
-      <div class="step" id="step3">
-
-        <div style="text-align:center;">
-
-          <h2>Aguardando confirmação</h2>
-
-          <p class="modal-sub">
-            Estamos aguardando a confirmação do pagamento.
-          </p>
-
-          <div class="loading"></div>
-
-          <p style="color:#666;font-size:13px;">
-            Esta é uma simulação enquanto o sistema de pagamento real
-            ainda não está conectado.
-          </p>
-
-          <button
-            class="buy"
-            onclick="simularPagamento()"
-            style="margin-top:20px;">
-            Simular pagamento aprovado
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ETAPA 4 -->
-
-      <div class="step" id="step4">
-
-        <div class="success">
-
-          <div class="success-icon">
-            ✓
-          </div>
-
-          <h2>Pagamento aprovado!</h2>
-
-          <p class="modal-sub">
-            Seu pedido foi registrado.
-          </p>
-
-          <div class="order-box">
-
-            <p>
-              Pedido:
-              <strong id="pedidoGerado"></strong>
-            </p>
-
-            <p>
-              Produto:
-              <strong>PRODUTO-DEMO-COFRE-CT</strong>
-            </p>
-
-            <p>
-              Status:
-              <strong>Pago</strong>
-            </p>
-
-          </div>
-
-          <button
-            class="buy"
-            onclick="fecharCheckout()">
-            Fechar
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
+    <button onclick="abrirInfo('suporte')">
+      Suporte
+    </button>
 
   </div>
 
+  © 2026 Cofre CT
 
-  <!-- ÁREA DO CLIENTE -->
+</footer>
 
-  <div class="modal" id="clienteModal">
 
-    <div class="modal-box">
+<!-- CHECKOUT -->
 
-      <button
-        class="close"
-        onclick="fecharModal('clienteModal')">
-        ×
-      </button>
+<div class="modal" id="checkout">
 
-      <h2>Área do cliente</h2>
+<div class="modal-box">
 
-      <p class="modal-sub">
-        Seus pedidos realizados neste navegador.
-      </p>
+<button class="close" onclick="fechar('checkout')">×</button>
 
-      <div
-        class="client-orders"
-        id="listaPedidos">
-      </div>
 
-    </div>
+<div class="step active" id="step1">
 
-  </div>
+<div class="step-title">
+Checkout
+</div>
 
+<h2 id="planoEscolhido">
+Seu plano
+</h2>
 
-  <!-- CONSULTAR PEDIDO -->
+<p>
+Confira os dados antes de continuar.
+</p>
 
-  <div class="modal" id="consultaModal">
+<div class="summary">
 
-    <div class="modal-box">
+<div>
+<span>Plano</span>
+<strong id="resumoPlano">-</strong>
+</div>
 
-      <button
-        class="close"
-        onclick="fecharModal('consultaModal')">
-        ×
-      </button>
+<div>
+<span>Valor</span>
+<strong id="resumoPreco">-</strong>
+</div>
 
-      <h2>Consultar pedido</h2>
+</div>
 
-      <p class="modal-sub">
-        Digite o código do seu pedido.
-      </p>
+<input
+id="contato"
+placeholder="WhatsApp ou e-mail">
 
-      <input
-        class="input"
-        id="codigoConsulta"
-        placeholder="Ex: CT-123456"
-      >
+<button class="buy" onclick="irPix()">
+Continuar para o Pix
+</button>
 
-      <button
-        class="buy"
-        onclick="consultarPedido()">
-        Consultar
-      </button>
+<div class="notice">
+O pagamento nesta versão é demonstrativo.
+</div>
 
-      <div
-        id="resultadoConsulta"
-        style="margin-top:15px;">
-      </div>
+</div>
 
-    </div>
 
-  </div>
+<div class="step" id="step2">
 
+<div class="step-title">
+Pagamento
+</div>
 
-  <!-- INFO -->
+<h2>
+Pagamento via Pix
+</h2>
 
-  <div class="modal" id="infoModal">
+<p>
+Escaneie ou copie o código.
+</p>
 
-    <div class="modal-box">
+<div class="summary">
 
-      <button
-        class="close"
-        onclick="fecharModal('infoModal')">
-        ×
-      </button>
+<div>
+<span>Plano</span>
+<strong id="pixPlano">-</strong>
+</div>
 
-      <h2 id="infoTitulo"></h2>
+<div>
+<span>Valor</span>
+<strong id="pixPreco">-</strong>
+</div>
 
-      <p
-        id="infoTexto"
-        class="modal-sub"
-        style="line-height:1.7;">
-      </p>
+</div>
 
-    </div>
+<div class="pix-box">
 
-  </div>
+<div class="qr">
 
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-DEMONSTRACAO-COFRE-CT"
+alt="QR Code">
 
-  <script>
+</div>
 
-    let planoSelecionado = null;
-    let precoSelecionado = null;
-    let telasSelecionadas = null;
-    let pedidoAtual = null;
+<div class="pix-code" id="codigoPix">
+PIX-DEMONSTRACAO-COFRE-CT
+</div>
 
+<button class="copy" onclick="copiarPix()">
+Copiar código Pix
+</button>
 
-    function abrirCheckout(plano, preco, telas) {
+</div>
 
-      planoSelecionado = plano;
-      precoSelecionado = preco;
-      telasSelecionadas = telas;
+<div class="warning">
+⚠️ Pix fictício para demonstração.
+</div>
 
-      document.getElementById("checkoutPlano").textContent = plano;
-      document.getElementById("checkoutPreco").textContent = preco;
-      document.getElementById("checkoutTelas").textContent = telas;
+<button class="buy" onclick="aguardando()">
+Já fiz o pagamento
+</button>
 
-      document.getElementById("contato").value = "";
+<button class="buy secondary" onclick="etapa(1)">
+Voltar
+</button>
 
-      mostrarEtapa(1);
+</div>
 
-      document.getElementById("checkoutModal").style.display = "flex";
-    }
 
+<div class="step" id="step3">
 
-    function fecharCheckout() {
+<div class="center">
 
-      document.getElementById("checkoutModal").style.display = "none";
+<div class="loading"></div>
 
-      pedidoAtual = null;
+<h2>
+Aguardando confirmação
+</h2>
 
-      mostrarEtapa(1);
-    }
+<p>
+Aguardando confirmação do pagamento.
+</p>
 
+</div>
 
-    function mostrarEtapa(numero) {
+<div class="order-code">
 
-      document.querySelectorAll("#checkoutModal .step")
-        .forEach(step => step.classList.remove("active"));
+<small>
+Número do pedido
+</small>
 
-      document
-        .getElementById("step" + numero)
-        .classList.add("active");
-    }
+<strong id="codigoPedido">
+-
+</strong>
 
+</div>
 
-    function irParaPix() {
+<div class="status pending">
+🟡 Aguardando pagamento
+</div>
 
-      const contato =
-        document.getElementById("contato").value.trim();
+<button class="buy" onclick="aprovarDemo()">
+Simular pagamento aprovado
+</button>
 
-      if (!contato) {
-        alert("Digite seu WhatsApp ou e-mail.");
-        return;
-      }
+<div class="notice">
+Somente demonstração.
+</div>
 
-      mostrarEtapa(2);
-    }
+</div>
 
 
-    function copiarPix() {
+<div class="step" id="step4">
 
-      const codigo =
-        document.getElementById("pixCode").textContent;
+<div class="center">
 
-      navigator.clipboard.writeText(codigo);
+<div class="success">
+✓
+</div>
 
-      alert("Código Pix copiado!");
-    }
+<h2>
+Pagamento aprovado!
+</h2>
 
+<p>
+Seu pedido foi confirmado.
+</p>
 
-    function irParaAguardando() {
+</div>
 
-      criarPedido();
+<div class="order-code">
 
-      mostrarEtapa(3);
-    }
+<small>
+Pedido
+</small>
 
+<strong id="codigoAprovado">
+-
+</strong>
 
-    function criarPedido() {
+</div>
 
-      const contato =
-        document.getElementById("contato").value.trim();
+<div class="status paid">
+🟢 Pago
+</div>
 
-      const pedidos =
-        JSON.parse(localStorage.getItem("cofreCTPedidos") || "[]");
+<div class="summary">
 
-      const numero =
-        Math.floor(100000 + Math.random() * 900000);
+<div>
+<span>Plano</span>
+<strong id="aprovadoPlano">-</strong>
+</div>
 
-      pedidoAtual = {
+<div>
+<span>Valor</span>
+<strong id="aprovadoPreco">-</strong>
+</div>
 
-        id: "CT-" + numero,
+</div>
 
-        plano: planoSelecionado,
+<div class="delivery">
 
-        preco: precoSelecionado,
+<h3>
+📦 Entrega liberada
+</h3>
 
-        telas: telasSelecionadas,
+<p>
+Produto de demonstração:
+</p>
 
-        contato: contato,
+<div class="product-demo">
+PRODUTO-DEMO-COFRE-CT
+</div>
 
-        status: "Aguardando pagamento",
+</div>
 
-        produto: "PRODUTO-DEMO-COFRE-CT",
+<button class="buy" onclick="fechar('checkout')">
+Finalizar
+</button>
 
-        criadoEm: new Date().toLocaleString("pt-BR"),
+</div>
 
-        pagoEm: null,
+</div>
+</div>
 
-        expiraEm: null
 
-      };
+<!-- ÁREA CLIENTE -->
 
-      pedidos.push(pedidoAtual);
+<div class="modal" id="cliente">
 
-      localStorage.setItem(
-        "cofreCTPedidos",
-        JSON.stringify(pedidos)
-      );
-    }
+<div class="modal-box">
 
+<button class="close" onclick="fechar('cliente')">×</button>
 
-    function simularPagamento() {
+<div class="step-title">
+Área do cliente
+</div>
 
-      if (!pedidoAtual) return;
+<h2>
+Meus pedidos
+</h2>
 
-      pedidoAtual.status = "Pago";
+<p>
+Pedidos salvos neste navegador.
+</p>
 
-      pedidoAtual.pagoEm =
-        new Date().toLocaleString("pt-BR");
+<div id="historico">
+</div>
 
-      const agora = new Date();
+</div>
 
-      const dias =
-        planoSelecionado === "1 Mês"
-          ? 30
-          : planoSelecionado === "1 Mês + Tela Extra"
-          ? 30
-          : planoSelecionado === "3 Meses"
-          ? 90
-          : planoSelecionado === "6 Meses"
-          ? 180
-          : 365;
+</div>
 
-      agora.setDate(agora.getDate() + dias);
 
-      pedidoAtual.expiraEm =
-        agora.toLocaleDateString("pt-BR");
+<!-- CONSULTA -->
 
-      atualizarPedido();
+<div class="modal" id="consulta">
 
-      document.getElementById("pedidoGerado").textContent =
-        pedidoAtual.id;
+<div class="modal-box">
 
-      mostrarEtapa(4);
-    }
+<button class="close" onclick="fechar('consulta')">×</button>
 
+<div class="step-title">
+Consultar pedido
+</div>
 
-    function atualizarPedido() {
+<h2>
+Seu pedido
+</h2>
 
-      const pedidos =
-        JSON.parse(localStorage.getItem("cofreCTPedidos") || "[]");
+<p>
+Digite o código do pedido.
+</p>
 
-      const index =
-        pedidos.findIndex(
-          pedido => pedido.id === pedidoAtual.id
-        );
+<input
+id="codigoConsulta"
+placeholder="CT-XXXXXX">
 
-      if (index !== -1) {
+<button class="buy" onclick="consultar()">
+Consultar
+</button>
 
-        pedidos[index] = pedidoAtual;
+<div class="result" id="resultado"></div>
 
-        localStorage.setItem(
-          "cofreCTPedidos",
-          JSON.stringify(pedidos)
-        );
-      }
-    }
+</div>
 
+</div>
 
-    function abrirAreaCliente() {
 
-      carregarPedidos();
+<!-- INFO -->
 
-      document.getElementById("clienteModal").style.display =
-        "flex";
-    }
+<div class="modal" id="info">
 
+<div class="modal-box">
 
-    function carregarPedidos() {
+<button class="close" onclick="fechar('info')">×</button>
 
-      const lista =
-        document.getElementById("listaPedidos");
+<div id="infoConteudo"></div>
 
-      const pedidos =
-        JSON.parse(localStorage.getItem("cofreCTPedidos") || "[]");
+</div>
 
-      if (!pedidos.length) {
+</div>
 
-        lista.innerHTML =
-          '<div class="empty">Nenhum pedido encontrado.</div>';
 
-        return;
-      }
+<script>
 
-      lista.innerHTML = "";
+let planoAtual="";
+let precoAtual="";
+let pedidoAtual=null;
 
-      pedidos
-        .slice()
-        .reverse()
-        .forEach(pedido => {
 
-          const div =
-            document.createElement("div");
+/* PEDIDOS */
 
-          div.className = "client-order";
+function gerarCodigo(){
 
-          div.innerHTML = `
+const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-            <strong>${pedido.id}</strong>
+let codigo="CT-";
 
-            <p>${pedido.plano}</p>
+for(let i=0;i<6;i++){
 
-            <p>R$ ${pedido.preco}</p>
+codigo+=chars.charAt(
+Math.floor(Math.random()*chars.length)
+);
 
-            <span class="status ${
-              pedido.status === "Pago"
-                ? "paid"
-                : "waiting"
-            }">
-              ${pedido.status}
-            </span>
+}
 
-            ${
-              pedido.expiraEm
-              ? `<p>Expira em: ${pedido.expiraEm}</p>`
-              : ""
-            }
+return codigo;
+}
 
-          `;
 
-          lista.appendChild(div);
+function pegarPedidos(){
 
-        });
-    }
+return JSON.parse(
+localStorage.getItem("cofreCTPedidos") || "[]"
+);
 
+}
 
-    function abrirConsultarPedido() {
 
-      document.getElementById("codigoConsulta").value = "";
+function salvarPedido(){
 
-      document.getElementById("resultadoConsulta").innerHTML = "";
+let pedidos=pegarPedidos();
 
-      document.getElementById("consultaModal").style.display =
-        "flex";
-    }
+let index=pedidos.findIndex(
+p=>p.codigo===pedidoAtual.codigo
+);
 
+if(index>=0){
 
-    function consultarPedido() {
+pedidos[index]=pedidoAtual;
 
-      const codigo =
-        document
-          .getElementById("codigoConsulta")
-          .value
-          .trim()
-          .toUpperCase();
+}else{
 
-      const pedidos =
-        JSON.parse(localStorage.getItem("cofreCTPedidos") || "[]");
+pedidos.push(pedidoAtual);
 
-      const pedido =
-        pedidos.find(
-          item => item.id === codigo
-        );
+}
 
-      const resultado =
-        document.getElementById("resultadoConsulta");
+localStorage.setItem(
+"cofreCTPedidos",
+JSON.stringify(pedidos)
+);
 
-      if (!pedido) {
+}
 
-        resultado.innerHTML = `
-          <div class="order-box">
-            <p style="color:#e50914;">
-              Pedido não encontrado.
-            </p>
-          </div>
-        `;
 
-        return;
-      }
+/* CHECKOUT */
 
-      resultado.innerHTML = `
+function abrirCheckout(plano,preco){
 
-        <div class="order-box">
+planoAtual=plano;
+precoAtual=preco;
 
-          <p>
-            Pedido:
-            <strong>${pedido.id}</strong>
-          </p>
+document.getElementById("planoEscolhido").innerText=plano;
+document.getElementById("resumoPlano").innerText=plano;
+document.getElementById("resumoPreco").innerText=preco;
 
-          <p>
-            Plano:
-            <strong>${pedido.plano}</strong>
-          </p>
+document.getElementById("contato").value="";
 
-          <p>
-            Valor:
-            <strong>R$ ${pedido.preco}</strong>
-          </p>
+etapa(1);
 
-          <p>
-            Status:
-            <strong>${pedido.status}</strong>
-          </p>
+document.getElementById("checkout").style.display="flex";
 
-          ${
-            pedido.expiraEm
-            ? `<p>
-                Expira em:
-                <strong>${pedido.expiraEm}</strong>
-              </p>`
-            : ""
-          }
+}
 
-        </div>
 
-      `;
-    }
+function irPix(){
 
+let contato=document.getElementById("contato").value.trim();
 
-    function abrirInfo(tipo) {
+if(!contato){
 
-      let titulo = "";
-      let texto = "";
+alert("Digite seu WhatsApp ou e-mail.");
 
-      if (tipo === "Termos") {
+return;
 
-        titulo = "Termos";
+}
 
-        texto =
-          "Os termos completos serão adicionados antes do lançamento oficial da plataforma.";
+pedidoAtual={
 
-      }
+codigo:gerarCodigo(),
 
-      if (tipo === "Privacidade") {
+plano:planoAtual,
 
-        titulo = "Privacidade";
+preco:precoAtual,
 
-        texto =
-          "As informações fornecidas no checkout serão utilizadas para gerenciamento dos pedidos. A política completa será adicionada antes do lançamento oficial.";
+contato:contato,
 
-      }
+status:"Aguardando pagamento",
 
-      if (tipo === "Suporte") {
+produto:null,
 
-        titulo = "Suporte";
+criadoEm:new Date().toLocaleString("pt-BR"),
 
-        texto =
-          "O canal oficial de suporte será informado aqui quando a plataforma estiver pronta para receber pedidos reais.";
+pagoEm:null,
 
-      }
+expiraEm:null
 
-      document.getElementById("infoTitulo").textContent =
-        titulo;
+};
 
-      document.getElementById("infoTexto").textContent =
-        texto;
+salvarPedido();
 
-      document.getElementById("infoModal").style.display =
-        "flex";
-    }
+document.getElementById("pixPlano").innerText=planoAtual;
+document.getElementById("pixPreco").innerText=precoAtual;
 
+etapa(2);
 
-    function fecharModal(id) {
+}
 
-      document.getElementById(id).style.display =
-        "none";
-    }
 
+function etapa(numero){
 
-    window.onclick = function(event) {
+document.querySelectorAll(".step")
+.forEach(x=>x.classList.remove("active"));
 
-      document
-        .querySelectorAll(".modal")
-        .forEach(modal => {
+document.getElementById("step"+numero)
+.classList.add("active");
 
-          if (event.target === modal) {
-            modal.style.display = "none";
-          }
+}
 
-        });
 
-    };
+function copiarPix(){
 
-  </script>
+navigator.clipboard.writeText(
+document.getElementById("codigoPix").innerText
+);
+
+alert("Código Pix copiado!");
+
+}
+
+
+function aguardando(){
+
+document.getElementById("codigoPedido")
+.innerText=pedidoAtual.codigo;
+
+etapa(3);
+
+}
+
+
+/* APROVAÇÃO DEMO */
+
+function aprovarDemo(){
+
+if(!pedidoAtual)return;
+
+pedidoAtual.status="Pago";
+
+pedidoAtual.produto="PRODUTO-DEMO-COFRE-CT";
+
+pedidoAtual.pagoEm=
+new Date().toLocaleString("pt-BR");
+
+/*
+  Estrutura preparada para futuramente
+  receber data real de expiração.
+*/
+
+pedidoAtual.expiraEm="A definir";
+
+salvarPedido();
+
+document.getElementById("codigoAprovado")
+.innerText=pedidoAtual.codigo;
+
+document.getElementById("aprovadoPlano")
+.innerText=pedidoAtual.plano;
+
+document.getElementById("aprovadoPreco")
+.innerText=pedidoAtual.preco;
+
+etapa(4);
+
+}
+
+
+/* ÁREA DO CLIENTE */
+
+function abrirCliente(){
+
+let pedidos=pegarPedidos();
+
+let html="";
+
+if(pedidos.length===0){
+
+html=`
+<div class="warning">
+Nenhum pedido encontrado neste navegador.
+</div>
+`;
+
+}else{
+
+pedidos.slice().reverse().forEach(p=>{
+
+let classe=
+p.status==="Pago" ? "paid":"pending";
+
+let texto=
+p.status==="Pago"
+? "🟢 Pago"
+: "🟡 Aguardando pagamento";
+
+html+=`
+
+<div class="history-item">
+
+<strong>${p.codigo}</strong>
+
+<small>
+${p.plano} • ${p.preco}
+</small>
+
+<div class="status ${classe}" style="margin-top:10px">
+${texto}
+</div>
+
+<button
+class="buy"
+onclick="verPedido('${p.codigo}')">
+Ver pedido
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("historico")
+.innerHTML=html;
+
+document.getElementById("cliente")
+.style.display="flex";
+
+}
+
+
+function verPedido(codigo){
+
+let pedidos=pegarPedidos();
+
+let p=pedidos.find(x=>x.codigo===codigo);
+
+if(!p)return;
+
+fechar("cliente");
+
+document.getElementById("codigoConsulta").value=codigo;
+
+consultar();
+
+document.getElementById("consulta")
+.style.display="flex";
+
+}
+
+
+/* CONSULTA */
+
+function abrirConsulta(){
+
+document.getElementById("codigoConsulta").value="";
+
+document.getElementById("resultado").innerHTML="";
+
+document.getElementById("consulta")
+.style.display="flex";
+
+}
+
+
+function consultar(){
+
+let codigo=
+document.getElementById("codigoConsulta")
+.value.trim()
+.toUpperCase();
+
+let pedidos=pegarPedidos();
+
+let p=pedidos.find(
+x=>x.codigo===codigo
+);
+
+if(!p){
+
+document.getElementById("resultado")
+.innerHTML=`
+<div class="warning">
+Pedido não encontrado neste navegador.
+</div>
+`;
+
+return;
+
+}
+
+let classe=
+p.status==="Pago" ? "paid":"pending";
+
+let status=
+p.status==="Pago"
+? "🟢 Pago"
+: "🟡 Aguardando pagamento";
+
+let entrega="";
+
+if(p.status==="Pago"){
+
+entrega=`
+
+<div class="delivery">
+
+<h3>
+📦 Produto liberado
+</h3>
+
+<p>
+Sua entrega de demonstração:
+</p>
+
+<div class="product-demo">
+${p.produto}
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("resultado")
+.innerHTML=`
+
+<div class="order-code">
+
+<small>
+Número do pedido
+</small>
+
+<strong>
+${p.codigo}
+</strong>
+
+</div>
+
+<div class="status ${classe}">
+${status}
+</div>
+
+<div class="summary">
+
+<div>
+<span>Plano</span>
+<strong>${p.plano}</strong>
+</div>
+
+<div>
+<span>Valor</span>
+<strong>${p.preco}</strong>
+</div>
+
+<div>
+<span>Criado</span>
+<strong>${p.criadoEm}</strong>
+</div>
+
+${
+p.pagoEm
+?
+`
+<div>
+<span>Pago em</span>
+<strong>${p.pagoEm}</strong>
+</div>
+`
+:""
+}
+
+</div>
+
+${entrega}
+
+`;
+
+}
+
+
+/* INFORMAÇÕES */
+
+function abrirInfo(tipo){
+
+let conteudo="";
+
+if(tipo==="termos"){
+
+conteudo=`
+
+<div class="step-title">
+Informações
+</div>
+
+<h2>
+Termos de uso
+</h2>
+
+<p>
+Ao utilizar o Cofre CT, o usuário concorda em fornecer
+informações verdadeiras durante o processo de compra.
+</p>
+
+<p>
+Os produtos e serviços disponibilizados devem ser utilizados
+de acordo com suas respectivas condições de uso.
+</p>
+
+<p>
+As regras definitivas serão atualizadas quando o sistema
+comercial estiver totalmente implementado.
+</p>
+
+`;
+
+}
+
+
+if(tipo==="privacidade"){
+
+conteudo=`
+
+<div class="step-title">
+Informações
+</div>
+
+<h2>
+Privacidade
+</h2>
+
+<p>
+O Cofre CT utiliza informações fornecidas pelo usuário
+para organizar pedidos e atendimento.
+</p>
+
+<p>
+Nesta versão demonstrativa, os pedidos ficam armazenados
+localmente no navegador através do localStorage.
+</p>
+
+<p>
+Quando o sistema real for conectado, esta seção deverá
+ser atualizada de acordo com o armazenamento e tratamento
+efetivamente utilizados.
+</p>
+
+`;
+
+}
+
+
+if(tipo==="suporte"){
+
+conteudo=`
+
+<div class="step-title">
+Atendimento
+</div>
+
+<h2>
+Suporte
+</h2>
+
+<p>
+Precisa de ajuda com seu pedido?
+</p>
+
+<div class="warning">
+O canal oficial de atendimento será conectado
+posteriormente.
+</div>
+
+<button class="buy" onclick="fechar('info')">
+Voltar
+</button>
+
+`;
+
+}
+
+document.getElementById("infoConteudo")
+.innerHTML=conteudo;
+
+document.getElementById("info")
+.style.display="flex";
+
+}
+
+
+/* FECHAR */
+
+function fechar(id){
+
+document.getElementById(id)
+.style.display="none";
+
+}
+
+
+/* FECHAR CLICANDO FORA */
+
+window.onclick=function(event){
+
+if(event.target.classList.contains("modal")){
+
+event.target.style.display="none";
+
+}
+
+};
+
+</script>
 
 </body>
 </html>
