@@ -193,6 +193,57 @@ header{
   box-shadow:30px 0 0 #333;
 }
 
+/* COMO FUNCIONA */
+
+.how{
+  width:90%;
+  max-width:1100px;
+  margin:0 auto 70px;
+}
+
+.how-title{
+  font-size:28px;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+
+.how-title span{
+  color:#e50914;
+}
+
+.how-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.how-box{
+  position:relative;
+  background:#101010;
+  border:1px solid #242424;
+  border-radius:12px;
+  padding:22px;
+  overflow:hidden;
+}
+
+.how-number{
+  color:#e50914;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.how-box h3{
+  margin-bottom:8px;
+}
+
+.how-box p{
+  color:#777;
+  font-size:13px;
+  line-height:1.6;
+}
+
 /* PLANOS */
 
 .section-title{
@@ -270,7 +321,13 @@ header{
 .price{
   font-size:32px;
   font-weight:900;
-  margin:18px 0;
+  margin:18px 0 7px;
+}
+
+.monthly{
+  color:#666;
+  font-size:11px;
+  margin-bottom:15px;
 }
 
 .card ul{
@@ -486,6 +543,30 @@ header{
   font-size:13px;
 }
 
+/* BOTÃO FLUTUANTE IA */
+
+.ai-float{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:900;
+  text-decoration:none;
+  background:#e50914;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 30px rgba(0,0,0,.45);
+  transition:.2s;
+}
+
+.ai-float:hover{
+  background:#ff1722;
+  transform:translateY(-3px);
+}
+
 /* FOOTER */
 
 footer{
@@ -689,7 +770,7 @@ input:focus{
   border-radius:8px;
   padding:13px;
   text-align:center;
-  margin:15px 0;
+  margin:15px 0 10px;
 }
 
 .order-code small{
@@ -702,6 +783,22 @@ input:focus{
 .order-code strong{
   font-size:20px;
   letter-spacing:2px;
+}
+
+.copy-order{
+  width:100%;
+  padding:9px;
+  background:#151515;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:11px;
+  margin-bottom:15px;
+}
+
+.copy-order:hover{
+  border-color:#e50914;
 }
 
 .status{
@@ -766,6 +863,11 @@ input:focus{
   font-size:16px;
 }
 
+.expire-box small{
+  display:block;
+  margin-top:5px;
+}
+
 /* CONSULTA */
 
 .result{
@@ -824,6 +926,14 @@ input:focus{
 
 /* RESPONSIVO */
 
+@media(max-width:800px){
+
+  .how-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
 @media(max-width:600px){
 
   header{
@@ -869,9 +979,21 @@ input:focus{
     width:92%;
   }
 
+  .how{
+    width:92%;
+  }
+
+  .ai-float{
+    right:12px;
+    bottom:12px;
+    padding:11px 14px;
+    font-size:11px;
+  }
+
   .modal-box{
     padding:23px;
   }
+
 }
 </style>
 </head>
@@ -930,21 +1052,98 @@ input:focus{
 </section>
 
 
+<!-- COMO FUNCIONA -->
+
+<section class="how">
+
+  <div class="how-title">
+    Como <span>funciona?</span>
+  </div>
+
+  <div class="how-grid">
+
+    <div class="how-box">
+
+      <div class="how-number">
+        01
+      </div>
+
+      <h3>
+        Escolha seu plano
+      </h3>
+
+      <p>
+        Escolha o período e a quantidade de telas
+        que deseja utilizar.
+      </p>
+
+    </div>
+
+
+    <div class="how-box">
+
+      <div class="how-number">
+        02
+      </div>
+
+      <h3>
+        Faça seu pedido
+      </h3>
+
+      <p>
+        Informe seu contato e siga as etapas
+        apresentadas no checkout.
+      </p>
+
+    </div>
+
+
+    <div class="how-box">
+
+      <div class="how-number">
+        03
+      </div>
+
+      <h3>
+        Receba seu acesso
+      </h3>
+
+      <p>
+        Após a confirmação, o sistema de entrega
+        disponibilizará seu acesso.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
 <div class="section-title">
+
   <h2>
     Escolha seu <span>plano</span>
   </h2>
+
 </div>
 
 
 <section class="plans">
 
+
   <div class="card">
 
-    <h2>1 Mês</h2>
+    <h2>
+      1 Mês
+    </h2>
 
     <div class="price">
       R$ 24,90
+    </div>
+
+    <div class="monthly">
+      R$ 24,90 por mês
     </div>
 
     <ul>
@@ -953,7 +1152,8 @@ input:focus{
       <li>Suporte</li>
     </ul>
 
-    <button class="buy"
+    <button
+      class="buy"
       onclick="abrirCheckout('1 Mês','R$ 24,90')">
       Comprar
     </button>
@@ -975,13 +1175,18 @@ input:focus{
       R$ 29,90
     </div>
 
+    <div class="monthly">
+      R$ 29,90 por mês
+    </div>
+
     <ul>
       <li>2 telas</li>
       <li>Uso simultâneo</li>
       <li>Ativação após confirmação</li>
     </ul>
 
-    <button class="buy"
+    <button
+      class="buy"
       onclick="abrirCheckout('1 Mês + Tela Extra','R$ 29,90')">
       Comprar
     </button>
@@ -991,10 +1196,16 @@ input:focus{
 
   <div class="card">
 
-    <h2>3 Meses</h2>
+    <h2>
+      3 Meses
+    </h2>
 
     <div class="price">
       R$ 52,90
+    </div>
+
+    <div class="monthly">
+      Equivale a R$ 17,63 por mês
     </div>
 
     <ul>
@@ -1003,7 +1214,8 @@ input:focus{
       <li>Ativação após confirmação</li>
     </ul>
 
-    <button class="buy"
+    <button
+      class="buy"
       onclick="abrirCheckout('3 Meses','R$ 52,90')">
       Comprar
     </button>
@@ -1013,10 +1225,16 @@ input:focus{
 
   <div class="card">
 
-    <h2>6 Meses</h2>
+    <h2>
+      6 Meses
+    </h2>
 
     <div class="price">
       R$ 99,90
+    </div>
+
+    <div class="monthly">
+      Equivale a R$ 16,65 por mês
     </div>
 
     <ul>
@@ -1025,7 +1243,8 @@ input:focus{
       <li>Ativação após confirmação</li>
     </ul>
 
-    <button class="buy"
+    <button
+      class="buy"
       onclick="abrirCheckout('6 Meses','R$ 99,90')">
       Comprar
     </button>
@@ -1035,10 +1254,16 @@ input:focus{
 
   <div class="card">
 
-    <h2>12 Meses</h2>
+    <h2>
+      12 Meses
+    </h2>
 
     <div class="price">
       R$ 169,90
+    </div>
+
+    <div class="monthly">
+      Equivale a R$ 14,16 por mês
     </div>
 
     <ul>
@@ -1047,12 +1272,14 @@ input:focus{
       <li>Ativação após confirmação</li>
     </ul>
 
-    <button class="buy"
+    <button
+      class="buy"
       onclick="abrirCheckout('12 Meses','R$ 169,90')">
       Comprar
     </button>
 
   </div>
+
 
 </section>
 
@@ -1101,14 +1328,21 @@ input:focus{
 
   <div class="faq-item">
 
-    <button class="faq-question" onclick="toggleFaq(this)">
+    <button
+      class="faq-question"
+      onclick="toggleFaq(this)">
+
       Como funciona a compra?
+
       <span>+</span>
+
     </button>
 
     <div class="faq-answer">
-      Escolha um dos planos disponíveis, informe seu WhatsApp
-      ou e-mail e siga as etapas do checkout.
+
+      Escolha um dos planos disponíveis, informe seu
+      WhatsApp ou e-mail e siga as etapas do checkout.
+
     </div>
 
   </div>
@@ -1116,14 +1350,21 @@ input:focus{
 
   <div class="faq-item">
 
-    <button class="faq-question" onclick="toggleFaq(this)">
+    <button
+      class="faq-question"
+      onclick="toggleFaq(this)">
+
       Como recebo meu acesso?
+
       <span>+</span>
+
     </button>
 
     <div class="faq-answer">
-      Após a confirmação do pagamento, a entrega será feita
-      pelo sistema de entrega conectado à Cofre CT.
+
+      Após a confirmação do pagamento, a entrega será
+      feita pelo sistema conectado à Cofre CT.
+
     </div>
 
   </div>
@@ -1131,14 +1372,21 @@ input:focus{
 
   <div class="faq-item">
 
-    <button class="faq-question" onclick="toggleFaq(this)">
+    <button
+      class="faq-question"
+      onclick="toggleFaq(this)">
+
       Como consultar meu pedido?
+
       <span>+</span>
+
     </button>
 
     <div class="faq-answer">
-      Use o botão "Consultar pedido" no topo do site e informe
-      o código do seu pedido.
+
+      Clique em "Consultar pedido" no topo do site
+      e informe o código recebido.
+
     </div>
 
   </div>
@@ -1146,14 +1394,21 @@ input:focus{
 
   <div class="faq-item">
 
-    <button class="faq-question" onclick="toggleFaq(this)">
+    <button
+      class="faq-question"
+      onclick="toggleFaq(this)">
+
       Ainda tenho dúvidas. O que faço?
+
       <span>+</span>
+
     </button>
 
     <div class="faq-answer">
-      Converse com nossa IA no botão acima. Ela foi criada
-      para ajudar com dúvidas e informações sobre a Cofre CT.
+
+      Converse com nossa IA através do botão de atendimento.
+      Ela foi criada para ajudar com dúvidas e informações.
+
     </div>
 
   </div>
@@ -1164,29 +1419,60 @@ input:focus{
 <section class="info-grid">
 
   <div class="info-box">
-    <h3>⚡ Rápido</h3>
+
+    <h3>
+      ⚡ Rápido
+    </h3>
+
     <p>
       Pedido simples e acompanhamento direto pelo site.
     </p>
+
   </div>
 
+
   <div class="info-box">
-    <h3>🔒 Seguro</h3>
+
+    <h3>
+      🔒 Seguro
+    </h3>
+
     <p>
       A estrutura foi preparada para receber um sistema
       seguro de backend futuramente.
     </p>
+
   </div>
 
+
   <div class="info-box">
-    <h3>📦 Entrega</h3>
+
+    <h3>
+      📦 Entrega
+    </h3>
+
     <p>
       A estrutura de entrega já está preparada para
       receber o produto após a confirmação.
     </p>
+
   </div>
 
 </section>
+
+
+<!-- BOTÃO FLUTUANTE -->
+
+<a
+  class="ai-float"
+  href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Conversar com a IA">
+
+  🤖 DÚVIDAS? FALE COM A IA
+
+</a>
 
 
 <footer>
@@ -1218,7 +1504,11 @@ input:focus{
 
 <div class="modal-box">
 
-<button class="close" onclick="fechar('checkout')">×</button>
+<button
+  class="close"
+  onclick="fechar('checkout')">
+  ×
+</button>
 
 
 <div class="step active" id="step1">
@@ -1253,7 +1543,9 @@ Confira os dados antes de continuar.
 id="contato"
 placeholder="WhatsApp ou e-mail">
 
-<button class="buy" onclick="irPix()">
+<button
+class="buy"
+onclick="irPix()">
 Continuar para o Pix
 </button>
 
@@ -1302,11 +1594,15 @@ alt="QR Code">
 
 </div>
 
-<div class="pix-code" id="codigoPix">
+<div
+class="pix-code"
+id="codigoPix">
 PIX-DEMONSTRACAO-COFRE-CT
 </div>
 
-<button class="copy" onclick="copiarPix()">
+<button
+class="copy"
+onclick="copiarPix()">
 Copiar código Pix
 </button>
 
@@ -1316,11 +1612,15 @@ Copiar código Pix
 ⚠️ Pix fictício para demonstração.
 </div>
 
-<button class="buy" onclick="aguardando()">
+<button
+class="buy"
+onclick="aguardando()">
 Já fiz o pagamento
 </button>
 
-<button class="buy secondary" onclick="etapa(1)">
+<button
+class="buy secondary"
+onclick="etapa(1)">
 Voltar
 </button>
 
@@ -1355,11 +1655,19 @@ Número do pedido
 
 </div>
 
+<button
+class="copy-order"
+onclick="copiarCodigoAtual()">
+Copiar código do pedido
+</button>
+
 <div class="status pending">
 🟡 Aguardando pagamento
 </div>
 
-<button class="buy" onclick="aprovarDemo()">
+<button
+class="buy"
+onclick="aprovarDemo()">
 Simular pagamento aprovado
 </button>
 
@@ -1400,6 +1708,12 @@ Pedido
 
 </div>
 
+<button
+class="copy-order"
+onclick="copiarCodigoAtual()">
+Copiar código do pedido
+</button>
+
 <div class="status paid">
 🟢 Pago
 </div>
@@ -1426,6 +1740,10 @@ Validade do acesso
 -
 </strong>
 
+<small id="aprovadoDias">
+-
+</small>
+
 </div>
 
 <div class="delivery">
@@ -1444,7 +1762,9 @@ PRODUTO-DEMO-COFRE-CT
 
 </div>
 
-<button class="buy" onclick="fechar('checkout')">
+<button
+class="buy"
+onclick="fechar('checkout')">
 Finalizar
 </button>
 
@@ -1460,7 +1780,11 @@ Finalizar
 
 <div class="modal-box">
 
-<button class="close" onclick="fechar('cliente')">×</button>
+<button
+class="close"
+onclick="fechar('cliente')">
+×
+</button>
 
 <div class="step-title">
 Área do cliente
@@ -1488,7 +1812,11 @@ Pedidos salvos neste navegador.
 
 <div class="modal-box">
 
-<button class="close" onclick="fechar('consulta')">×</button>
+<button
+class="close"
+onclick="fechar('consulta')">
+×
+</button>
 
 <div class="step-title">
 Consultar pedido
@@ -1506,11 +1834,16 @@ Digite o código do pedido.
 id="codigoConsulta"
 placeholder="CT-XXXXXX">
 
-<button class="buy" onclick="consultar()">
+<button
+class="buy"
+onclick="consultar()">
 Consultar
 </button>
 
-<div class="result" id="resultado"></div>
+<div
+class="result"
+id="resultado">
+</div>
 
 </div>
 
@@ -1523,9 +1856,14 @@ Consultar
 
 <div class="modal-box">
 
-<button class="close" onclick="fechar('info')">×</button>
+<button
+class="close"
+onclick="fechar('info')">
+×
+</button>
 
-<div id="infoConteudo"></div>
+<div id="infoConteudo">
+</div>
 
 </div>
 
@@ -1543,53 +1881,53 @@ let pedidoAtual=null;
 
 function gerarCodigo(){
 
-const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-let codigo="CT-";
+  let codigo="CT-";
 
-for(let i=0;i<6;i++){
+  for(let i=0;i<6;i++){
 
-codigo+=chars.charAt(
-Math.floor(Math.random()*chars.length)
-);
+    codigo+=chars.charAt(
+      Math.floor(Math.random()*chars.length)
+    );
 
-}
+  }
 
-return codigo;
+  return codigo;
 }
 
 
 function pegarPedidos(){
 
-return JSON.parse(
-localStorage.getItem("cofreCTPedidos") || "[]"
-);
+  return JSON.parse(
+    localStorage.getItem("cofreCTPedidos") || "[]"
+  );
 
 }
 
 
 function salvarPedido(){
 
-let pedidos=pegarPedidos();
+  let pedidos=pegarPedidos();
 
-let index=pedidos.findIndex(
-p=>p.codigo===pedidoAtual.codigo
-);
+  let index=pedidos.findIndex(
+    p=>p.codigo===pedidoAtual.codigo
+  );
 
-if(index>=0){
+  if(index>=0){
 
-pedidos[index]=pedidoAtual;
+    pedidos[index]=pedidoAtual;
 
-}else{
+  }else{
 
-pedidos.push(pedidoAtual);
+    pedidos.push(pedidoAtual);
 
-}
+  }
 
-localStorage.setItem(
-"cofreCTPedidos",
-JSON.stringify(pedidos)
-);
+  localStorage.setItem(
+    "cofreCTPedidos",
+    JSON.stringify(pedidos)
+  );
 
 }
 
@@ -1598,171 +1936,201 @@ JSON.stringify(pedidos)
 
 function diasDoPlano(plano){
 
-if(plano==="1 Mês"){
-return 30;
-}
+  if(plano==="1 Mês"){
+    return 30;
+  }
 
-if(plano==="1 Mês + Tela Extra"){
-return 30;
-}
+  if(plano==="1 Mês + Tela Extra"){
+    return 30;
+  }
 
-if(plano==="3 Meses"){
-return 90;
-}
+  if(plano==="3 Meses"){
+    return 90;
+  }
 
-if(plano==="6 Meses"){
-return 180;
-}
+  if(plano==="6 Meses"){
+    return 180;
+  }
 
-if(plano==="12 Meses"){
-return 365;
-}
+  if(plano==="12 Meses"){
+    return 365;
+  }
 
-return 30;
+  return 30;
 }
 
 
 function calcularExpiracao(plano){
 
-const data=new Date();
+  const data=new Date();
 
-data.setDate(
-data.getDate()+diasDoPlano(plano)
-);
+  data.setDate(
+    data.getDate()+diasDoPlano(plano)
+  );
 
-return data;
+  return data;
 }
 
 
 function formatarData(data){
 
-return data.toLocaleDateString("pt-BR");
+  return data.toLocaleDateString("pt-BR");
 
 }
 
 
 function diasRestantes(dataString){
 
-if(!dataString || dataString==="A definir"){
-return null;
+  if(!dataString || dataString==="A definir"){
+    return null;
+  }
+
+  const partes=dataString.split("/");
+
+  if(partes.length!==3){
+    return null;
+  }
+
+  const data=new Date(
+    partes[2],
+    partes[1]-1,
+    partes[0]
+  );
+
+  const hoje=new Date();
+
+  hoje.setHours(0,0,0,0);
+  data.setHours(0,0,0,0);
+
+  const diferenca=data-hoje;
+
+  return Math.ceil(
+    diferenca/(1000*60*60*24)
+  );
+
 }
-
-const partes=dataString.split("/");
-
-if(partes.length!==3){
-return null;
-}
-
-const data=new Date(
-partes[2],
-partes[1]-1,
-partes[0]
-);
-
-const hoje=new Date();
-
-hoje.setHours(0,0,0,0);
-data.setHours(0,0,0,0);
-
-const diferenca=data-hoje;
-
-return Math.ceil(
-diferenca/(1000*60*60*24)
-);
 
 
 /* CHECKOUT */
 
 function abrirCheckout(plano,preco){
 
-planoAtual=plano;
-precoAtual=preco;
+  planoAtual=plano;
+  precoAtual=preco;
 
-document.getElementById("planoEscolhido").innerText=plano;
-document.getElementById("resumoPlano").innerText=plano;
-document.getElementById("resumoPreco").innerText=preco;
+  document.getElementById("planoEscolhido").innerText=plano;
+  document.getElementById("resumoPlano").innerText=plano;
+  document.getElementById("resumoPreco").innerText=preco;
 
-document.getElementById("contato").value="";
+  document.getElementById("contato").value="";
 
-etapa(1);
+  etapa(1);
 
-document.getElementById("checkout").style.display="flex";
+  document.getElementById("checkout").style.display="flex";
 
 }
 
 
 function irPix(){
 
-let contato=document.getElementById("contato").value.trim();
+  let contato=
+    document.getElementById("contato")
+    .value
+    .trim();
 
-if(!contato){
+  if(!contato){
 
-alert("Digite seu WhatsApp ou e-mail.");
+    alert("Digite seu WhatsApp ou e-mail.");
 
-return;
+    return;
 
-}
+  }
 
-pedidoAtual={
+  pedidoAtual={
 
-codigo:gerarCodigo(),
+    codigo:gerarCodigo(),
 
-plano:planoAtual,
+    plano:planoAtual,
 
-preco:precoAtual,
+    preco:precoAtual,
 
-contato:contato,
+    contato:contato,
 
-status:"Aguardando pagamento",
+    status:"Aguardando pagamento",
 
-produto:null,
+    produto:null,
 
-criadoEm:new Date().toLocaleString("pt-BR"),
+    criadoEm:
+      new Date().toLocaleString("pt-BR"),
 
-pagoEm:null,
+    pagoEm:null,
 
-expiraEm:null
+    expiraEm:null
 
-};
+  };
 
-salvarPedido();
+  salvarPedido();
 
-document.getElementById("pixPlano").innerText=planoAtual;
-document.getElementById("pixPreco").innerText=precoAtual;
+  document.getElementById("pixPlano")
+    .innerText=planoAtual;
 
-etapa(2);
+  document.getElementById("pixPreco")
+    .innerText=precoAtual;
+
+  etapa(2);
 
 }
 
 
 function etapa(numero){
 
-document.querySelectorAll(".step")
-.forEach(x=>x.classList.remove("active"));
+  document
+    .querySelectorAll(".step")
+    .forEach(
+      x=>x.classList.remove("active")
+    );
 
-document.getElementById("step"+numero)
-.classList.add("active");
+  document
+    .getElementById("step"+numero)
+    .classList.add("active");
 
 }
 
 
 function copiarPix(){
 
-navigator.clipboard.writeText(
-document.getElementById("codigoPix").innerText
-);
+  navigator.clipboard.writeText(
+    document.getElementById("codigoPix").innerText
+  );
 
-alert("Código Pix copiado!");
+  alert("Código Pix copiado!");
 
 }
 
 
 function aguardando(){
 
-document.getElementById("codigoPedido")
-.innerText=pedidoAtual.codigo;
+  document.getElementById("codigoPedido")
+    .innerText=pedidoAtual.codigo;
 
-etapa(3);
+  etapa(3);
+
+}
+
+
+/* COPIAR PEDIDO */
+
+function copiarCodigoAtual(){
+
+  if(!pedidoAtual){
+    return;
+  }
+
+  navigator.clipboard.writeText(
+    pedidoAtual.codigo
+  );
+
+  alert("Código do pedido copiado!");
 
 }
 
@@ -1771,39 +2139,51 @@ etapa(3);
 
 function aprovarDemo(){
 
-if(!pedidoAtual)return;
+  if(!pedidoAtual){
+    return;
+  }
 
-pedidoAtual.status="Pago";
+  pedidoAtual.status="Pago";
 
-pedidoAtual.produto="PRODUTO-DEMO-COFRE-CT";
+  pedidoAtual.produto=
+    "PRODUTO-DEMO-COFRE-CT";
 
-pedidoAtual.pagoEm=
-new Date().toLocaleString("pt-BR");
+  pedidoAtual.pagoEm=
+    new Date().toLocaleString("pt-BR");
 
-/* VALIDADE DEMONSTRATIVA */
+  const expiracao=
+    calcularExpiracao(
+      pedidoAtual.plano
+    );
 
-const expiracao=
-calcularExpiracao(pedidoAtual.plano);
+  pedidoAtual.expiraEm=
+    formatarData(expiracao);
 
-pedidoAtual.expiraEm=
-formatarData(expiracao);
+  salvarPedido();
 
-salvarPedido();
+  document.getElementById("codigoAprovado")
+    .innerText=pedidoAtual.codigo;
 
-document.getElementById("codigoAprovado")
-.innerText=pedidoAtual.codigo;
+  document.getElementById("aprovadoPlano")
+    .innerText=pedidoAtual.plano;
 
-document.getElementById("aprovadoPlano")
-.innerText=pedidoAtual.plano;
+  document.getElementById("aprovadoPreco")
+    .innerText=pedidoAtual.preco;
 
-document.getElementById("aprovadoPreco")
-.innerText=pedidoAtual.preco;
+  document.getElementById("aprovadoValidade")
+    .innerText=pedidoAtual.expiraEm;
 
-document.getElementById("aprovadoValidade")
-.innerText=
-pedidoAtual.expiraEm;
+  const dias=diasRestantes(
+    pedidoAtual.expiraEm
+  );
 
-etapa(4);
+  document.getElementById("aprovadoDias")
+    .innerText=
+      dias!==null
+      ? "Restam "+Math.max(dias,0)+" dia(s)"
+      : "";
+
+  etapa(4);
 
 }
 
@@ -1812,112 +2192,144 @@ etapa(4);
 
 function abrirCliente(){
 
-let pedidos=pegarPedidos();
+  let pedidos=pegarPedidos();
 
-let html="";
+  let html="";
 
-if(pedidos.length===0){
+  if(pedidos.length===0){
 
-html=`
-<div class="warning">
-Nenhum pedido encontrado neste navegador.
-</div>
-`;
+    html=`
+      <div class="warning">
+        Nenhum pedido encontrado neste navegador.
+      </div>
+    `;
 
-}else{
+  }else{
 
-pedidos.slice().reverse().forEach(p=>{
+    pedidos.slice().reverse().forEach(p=>{
 
-let classe=
-p.status==="Pago" ? "paid":"pending";
+      let classe=
+        p.status==="Pago"
+        ? "paid"
+        : "pending";
 
-let texto=
-p.status==="Pago"
-? "🟢 Pago"
-: "🟡 Aguardando pagamento";
+      let texto=
+        p.status==="Pago"
+        ? "🟢 Pago"
+        : "🟡 Aguardando pagamento";
 
-let validade="";
+      let validade="";
 
-if(p.expiraEm){
+      if(p.expiraEm){
 
-let dias=diasRestantes(p.expiraEm);
+        let dias=
+          diasRestantes(p.expiraEm);
 
-validade=`
+        validade=`
 
-<div class="expire-box">
+          <div class="expire-box">
 
-Validade:
-<strong>${p.expiraEm}</strong>
+            Validade
 
-${
-dias!==null
-?
-`<small style="color:#777">Restam ${Math.max(dias,0)} dia(s)</small>`
-:
-""
+            <strong>
+              ${p.expiraEm}
+            </strong>
+
+            ${
+              dias!==null
+              ?
+              `<small>
+                Restam ${Math.max(dias,0)} dia(s)
+              </small>`
+              :
+              ""
+            }
+
+          </div>
+
+        `;
+
+      }
+
+      html+=`
+
+        <div class="history-item">
+
+          <strong>
+            ${p.codigo}
+          </strong>
+
+          <small>
+            ${p.plano} • ${p.preco}
+          </small>
+
+          <div
+            class="status ${classe}"
+            style="margin-top:10px">
+            ${texto}
+          </div>
+
+          ${validade}
+
+          <button
+            class="copy-order"
+            onclick="copiarCodigoPedido('${p.codigo}')">
+            Copiar código
+          </button>
+
+          <button
+            class="buy"
+            onclick="verPedido('${p.codigo}')">
+            Ver pedido
+          </button>
+
+        </div>
+
+      `;
+
+    });
+
+  }
+
+  document.getElementById("historico")
+    .innerHTML=html;
+
+  document.getElementById("cliente")
+    .style.display="flex";
+
 }
 
-</div>
 
-`;
+function copiarCodigoPedido(codigo){
 
-}
+  navigator.clipboard.writeText(codigo);
 
-html+=`
-
-<div class="history-item">
-
-<strong>${p.codigo}</strong>
-
-<small>
-${p.plano} • ${p.preco}
-</small>
-
-<div class="status ${classe}" style="margin-top:10px">
-${texto}
-</div>
-
-${validade}
-
-<button
-class="buy"
-onclick="verPedido('${p.codigo}')">
-Ver pedido
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-
-document.getElementById("historico")
-.innerHTML=html;
-
-document.getElementById("cliente")
-.style.display="flex";
+  alert("Código do pedido copiado!");
 
 }
 
 
 function verPedido(codigo){
 
-let pedidos=pegarPedidos();
+  let pedidos=pegarPedidos();
 
-let p=pedidos.find(x=>x.codigo===codigo);
+  let p=pedidos.find(
+    x=>x.codigo===codigo
+  );
 
-if(!p)return;
+  if(!p){
+    return;
+  }
 
-fechar("cliente");
+  fechar("cliente");
 
-document.getElementById("codigoConsulta").value=codigo;
+  document.getElementById("codigoConsulta")
+    .value=codigo;
 
-consultar();
+  consultar();
 
-document.getElementById("consulta")
-.style.display="flex";
+  document.getElementById("consulta")
+    .style.display="flex";
 
 }
 
@@ -1926,161 +2338,178 @@ document.getElementById("consulta")
 
 function abrirConsulta(){
 
-document.getElementById("codigoConsulta").value="";
+  document.getElementById("codigoConsulta")
+    .value="";
 
-document.getElementById("resultado").innerHTML="";
+  document.getElementById("resultado")
+    .innerHTML="";
 
-document.getElementById("consulta")
-.style.display="flex";
+  document.getElementById("consulta")
+    .style.display="flex";
 
 }
 
 
 function consultar(){
 
-let codigo=
-document.getElementById("codigoConsulta")
-.value.trim()
-.toUpperCase();
+  let codigo=
+    document.getElementById("codigoConsulta")
+    .value
+    .trim()
+    .toUpperCase();
 
-let pedidos=pegarPedidos();
+  let pedidos=pegarPedidos();
 
-let p=pedidos.find(
-x=>x.codigo===codigo
-);
+  let p=pedidos.find(
+    x=>x.codigo===codigo
+  );
 
-if(!p){
+  if(!p){
 
-document.getElementById("resultado")
-.innerHTML=`
-<div class="warning">
-Pedido não encontrado neste navegador.
-</div>
-`;
+    document.getElementById("resultado")
+      .innerHTML=`
 
-return;
+        <div class="warning">
+          Pedido não encontrado neste navegador.
+        </div>
 
-}
+      `;
 
-let classe=
-p.status==="Pago" ? "paid":"pending";
+    return;
 
-let status=
-p.status==="Pago"
-? "🟢 Pago"
-: "🟡 Aguardando pagamento";
+  }
 
-let entrega="";
+  let classe=
+    p.status==="Pago"
+    ? "paid"
+    : "pending";
 
-let validade="";
+  let status=
+    p.status==="Pago"
+    ? "🟢 Pago"
+    : "🟡 Aguardando pagamento";
 
-if(p.expiraEm){
+  let entrega="";
 
-let dias=diasRestantes(p.expiraEm);
+  let validade="";
 
-validade=`
+  if(p.expiraEm){
 
-<div class="expire-box">
+    let dias=
+      diasRestantes(p.expiraEm);
 
-Validade do acesso
+    validade=`
 
-<strong>
-${p.expiraEm}
-</strong>
+      <div class="expire-box">
 
-${
-dias!==null
-?
-`<small style="color:#777">Restam ${Math.max(dias,0)} dia(s)</small>`
-:
-""
-}
+        Validade do acesso
 
-</div>
+        <strong>
+          ${p.expiraEm}
+        </strong>
 
-`;
+        ${
+          dias!==null
+          ?
+          `<small>
+            Restam ${Math.max(dias,0)} dia(s)
+          </small>`
+          :
+          ""
+        }
 
-}
+      </div>
 
-if(p.status==="Pago"){
+    `;
 
-entrega=`
+  }
 
-<div class="delivery">
+  if(p.status==="Pago"){
 
-<h3>
-📦 Produto liberado
-</h3>
+    entrega=`
 
-<p>
-Sua entrega de demonstração:
-</p>
+      <div class="delivery">
 
-<div class="product-demo">
-${p.produto}
-</div>
+        <h3>
+          📦 Produto liberado
+        </h3>
 
-</div>
+        <p>
+          Sua entrega de demonstração:
+        </p>
 
-`;
+        <div class="product-demo">
+          ${p.produto}
+        </div>
 
-}
+      </div>
 
-document.getElementById("resultado")
-.innerHTML=`
+    `;
 
-<div class="order-code">
+  }
 
-<small>
-Número do pedido
-</small>
+  document.getElementById("resultado")
+    .innerHTML=`
 
-<strong>
-${p.codigo}
-</strong>
+      <div class="order-code">
 
-</div>
+        <small>
+          Número do pedido
+        </small>
 
-<div class="status ${classe}">
-${status}
-</div>
+        <strong>
+          ${p.codigo}
+        </strong>
 
-<div class="summary">
+      </div>
 
-<div>
-<span>Plano</span>
-<strong>${p.plano}</strong>
-</div>
+      <button
+        class="copy-order"
+        onclick="copiarCodigoPedido('${p.codigo}')">
+        Copiar código do pedido
+      </button>
 
-<div>
-<span>Valor</span>
-<strong>${p.preco}</strong>
-</div>
+      <div class="status ${classe}">
+        ${status}
+      </div>
 
-<div>
-<span>Criado</span>
-<strong>${p.criadoEm}</strong>
-</div>
+      <div class="summary">
 
-${
-p.pagoEm
-?
-`
-<div>
-<span>Pago em</span>
-<strong>${p.pagoEm}</strong>
-</div>
-`
-:""
-}
+        <div>
+          <span>Plano</span>
+          <strong>${p.plano}</strong>
+        </div>
 
-</div>
+        <div>
+          <span>Valor</span>
+          <strong>${p.preco}</strong>
+        </div>
 
-${validade}
+        <div>
+          <span>Criado</span>
+          <strong>${p.criadoEm}</strong>
+        </div>
 
-${entrega}
+        ${
+          p.pagoEm
+          ?
+          `
+            <div>
+              <span>Pago em</span>
+              <strong>${p.pagoEm}</strong>
+            </div>
+          `
+          :
+          ""
+        }
 
-`;
+      </div>
+
+      ${validade}
+
+      ${entrega}
+
+    `;
 
 }
 
@@ -2089,9 +2518,10 @@ ${entrega}
 
 function toggleFaq(button){
 
-const item=button.parentElement;
+  const item=
+    button.parentElement;
 
-item.classList.toggle("open");
+  item.classList.toggle("open");
 
 }
 
@@ -2100,108 +2530,108 @@ item.classList.toggle("open");
 
 function abrirInfo(tipo){
 
-let conteudo="";
+  let conteudo="";
 
-if(tipo==="termos"){
+  if(tipo==="termos"){
 
-conteudo=`
+    conteudo=`
 
-<div class="step-title">
-Informações
-</div>
+      <div class="step-title">
+        Informações
+      </div>
 
-<h2>
-Termos de uso
-</h2>
+      <h2>
+        Termos de uso
+      </h2>
 
-<p>
-Ao utilizar o Cofre CT, o usuário concorda em fornecer
-informações verdadeiras durante o processo de compra.
-</p>
+      <p>
+        Ao utilizar o Cofre CT, o usuário concorda em fornecer
+        informações verdadeiras durante o processo de compra.
+      </p>
 
-<p>
-Os produtos e serviços disponibilizados devem ser utilizados
-de acordo com suas respectivas condições de uso.
-</p>
+      <p>
+        Os produtos e serviços disponibilizados devem ser
+        utilizados de acordo com suas respectivas condições de uso.
+      </p>
 
-<p>
-As regras definitivas serão atualizadas quando o sistema
-comercial estiver totalmente implementado.
-</p>
+      <p>
+        As regras definitivas serão atualizadas quando o sistema
+        comercial estiver totalmente implementado.
+      </p>
 
-`;
+    `;
 
-}
-
-
-if(tipo==="privacidade"){
-
-conteudo=`
-
-<div class="step-title">
-Informações
-</div>
-
-<h2>
-Privacidade
-</h2>
-
-<p>
-O Cofre CT utiliza informações fornecidas pelo usuário
-para organizar pedidos e atendimento.
-</p>
-
-<p>
-Nesta versão demonstrativa, os pedidos ficam armazenados
-localmente no navegador através do localStorage.
-</p>
-
-<p>
-Quando o sistema real for conectado, esta seção deverá
-ser atualizada de acordo com o armazenamento e tratamento
-efetivamente utilizados.
-</p>
-
-`;
-
-}
+  }
 
 
-if(tipo==="suporte"){
+  if(tipo==="privacidade"){
 
-conteudo=`
+    conteudo=`
 
-<div class="step-title">
-Atendimento
-</div>
+      <div class="step-title">
+        Informações
+      </div>
 
-<h2>
-Precisa de ajuda?
-</h2>
+      <h2>
+        Privacidade
+      </h2>
 
-<p>
-Para tirar dúvidas e obter mais informações sobre a
-Cofre CT, converse com nossa IA.
-</p>
+      <p>
+        O Cofre CT utiliza informações fornecidas pelo usuário
+        para organizar pedidos e atendimento.
+      </p>
 
-<a
-class="ai-btn"
-href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
-target="_blank"
-rel="noopener noreferrer"
-style="width:100%;margin-top:5px;">
-🤖 CONVERSAR COM NOSSA IA
-</a>
+      <p>
+        Nesta versão demonstrativa, os pedidos ficam armazenados
+        localmente no navegador através do localStorage.
+      </p>
 
-`;
+      <p>
+        Quando o sistema real for conectado, esta seção deverá
+        ser atualizada de acordo com o armazenamento e tratamento
+        efetivamente utilizados.
+      </p>
 
-}
+    `;
 
-document.getElementById("infoConteudo")
-.innerHTML=conteudo;
+  }
 
-document.getElementById("info")
-.style.display="flex";
+
+  if(tipo==="suporte"){
+
+    conteudo=`
+
+      <div class="step-title">
+        Atendimento
+      </div>
+
+      <h2>
+        Precisa de ajuda?
+      </h2>
+
+      <p>
+        Para tirar dúvidas e obter mais informações sobre a
+        Cofre CT, converse com nossa IA.
+      </p>
+
+      <a
+        class="ai-btn"
+        href="https://cdn.botpress.cloud/webchat/v5.0/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/05/17/20260905173026-MJ27MGE8.json"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="width:100%;margin-top:5px;">
+        🤖 CONVERSAR COM NOSSA IA
+      </a>
+
+    `;
+
+  }
+
+  document.getElementById("infoConteudo")
+    .innerHTML=conteudo;
+
+  document.getElementById("info")
+    .style.display="flex";
 
 }
 
@@ -2210,8 +2640,8 @@ document.getElementById("info")
 
 function fechar(id){
 
-document.getElementById(id)
-.style.display="none";
+  document.getElementById(id)
+    .style.display="none";
 
 }
 
@@ -2220,11 +2650,11 @@ document.getElementById(id)
 
 window.onclick=function(event){
 
-if(event.target.classList.contains("modal")){
+  if(event.target.classList.contains("modal")){
 
-event.target.style.display="none";
+    event.target.style.display="none";
 
-}
+  }
 
 };
 
