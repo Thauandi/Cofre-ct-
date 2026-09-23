@@ -27,6 +27,7 @@
       padding: 22px 7%;
       background: #0d0d0d;
       border-bottom: 1px solid #292929;
+      gap: 15px;
     }
 
     .logo {
@@ -39,11 +40,31 @@
       color: #e50914;
     }
 
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
     .pix {
       padding: 8px 14px;
       border: 1px solid #e50914;
       border-radius: 20px;
       font-size: 13px;
+    }
+
+    .consultar-top {
+      padding: 9px 14px;
+      background: #171717;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .consultar-top:hover {
+      border-color: #e50914;
     }
 
     .hero {
@@ -251,7 +272,7 @@
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin: 7px 0;
+      margin: 8px 0;
       color: #aaa;
     }
 
@@ -381,24 +402,84 @@
       text-align: center;
     }
 
-    .order {
-      color: #666;
-      font-size: 12px;
-      margin-top: 12px;
+    .order-code {
+      background: #080808;
+      border: 1px dashed #e50914;
+      border-radius: 9px;
+      padding: 13px;
       text-align: center;
+      margin: 15px 0;
+    }
+
+    .order-code small {
+      display: block;
+      color: #666;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .order-code strong {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    .status {
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: #181818;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .status.pending {
+      color: #f0a500;
+    }
+
+    .status.paid {
+      color: #35d07f;
+    }
+
+    .delivery {
+      background: #080808;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .delivery h3 {
+      margin-bottom: 8px;
+    }
+
+    .delivery p {
+      margin-bottom: 10px;
+    }
+
+    .product-demo {
+      padding: 13px;
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #ddd;
+      font-size: 13px;
+      word-break: break-word;
     }
 
     @media (max-width: 600px) {
+
       .hero h1 {
         font-size: 38px;
       }
 
       header {
         padding: 18px 5%;
+        flex-wrap: wrap;
       }
 
-      .pix {
-        font-size: 11px;
+      .header-buttons {
+        width: 100%;
+        justify-content: space-between;
       }
 
       .plans {
@@ -416,8 +497,16 @@
     COFRE <span>CT</span>
   </div>
 
-  <div class="pix">
-    PIX • CARTÃO
+  <div class="header-buttons">
+
+    <button class="consultar-top" onclick="abrirConsulta()">
+      Consultar pedido
+    </button>
+
+    <div class="pix">
+      PIX • CARTÃO
+    </div>
+
   </div>
 
 </header>
@@ -567,7 +656,7 @@
 
   <br>
 
-  O pagamento real será conectado posteriormente.
+  O pagamento e a entrega automática serão conectados posteriormente.
 
 </div>
 
@@ -577,18 +666,18 @@
 </footer>
 
 
-<!-- CHECKOUT -->
+<!-- MODAL PRINCIPAL -->
 
 <div class="modal" id="checkout">
 
   <div class="modal-box">
 
-    <button class="close" onclick="fecharCheckout()">
+    <button class="close" onclick="fecharModal('checkout')">
       ×
     </button>
 
 
-    <!-- ETAPA 1 -->
+    <!-- CHECKOUT -->
 
     <div class="step active" id="step1">
 
@@ -639,7 +728,7 @@
     </div>
 
 
-    <!-- ETAPA 2 PIX -->
+    <!-- PIX -->
 
     <div class="step" id="step2">
 
@@ -705,14 +794,14 @@
       </button>
 
 
-      <button class="buy secondary" onclick="voltarCheckout()">
+      <button class="buy secondary" onclick="mostrarEtapa(1)">
         Voltar
       </button>
 
     </div>
 
 
-    <!-- ETAPA 3 AGUARDANDO -->
+    <!-- AGUARDANDO -->
 
     <div class="step" id="step3">
 
@@ -725,24 +814,27 @@
         </h2>
 
         <p>
-          Estamos verificando o pagamento.
+          Estamos aguardando a confirmação do pagamento.
         </p>
 
       </div>
 
 
-      <div class="summary">
+      <div class="order-code">
 
-        <div>
-          <span>Plano</span>
-          <strong id="aguardandoPlano">-</strong>
-        </div>
+        <small>
+          Número do pedido
+        </small>
 
-        <div>
-          <span>Valor</span>
-          <strong id="aguardandoPreco">-</strong>
-        </div>
+        <strong id="codigoPedidoTela">
+          -
+        </strong>
 
+      </div>
+
+
+      <div class="status pending">
+        🟡 Aguardando pagamento
       </div>
 
 
@@ -752,13 +844,13 @@
 
 
       <div class="notice">
-        BOTÃO DE DEMONSTRAÇÃO — não confirma nenhum pagamento real.
+        BOTÃO DE DEMONSTRAÇÃO — não confirma pagamento real.
       </div>
 
     </div>
 
 
-    <!-- ETAPA 4 APROVADO -->
+    <!-- APROVADO -->
 
     <div class="step" id="step4">
 
@@ -773,9 +865,27 @@
         </h2>
 
         <p>
-          Seu pedido foi confirmado com sucesso.
+          Seu pedido foi confirmado.
         </p>
 
+      </div>
+
+
+      <div class="order-code">
+
+        <small>
+          Número do pedido
+        </small>
+
+        <strong id="codigoPedidoAprovado">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="status paid">
+        🟢 Pago
       </div>
 
 
@@ -791,24 +901,74 @@
           <strong id="aprovadoPreco">-</strong>
         </div>
 
-        <div>
-          <span>Contato</span>
-          <strong id="aprovadoContato">-</strong>
+      </div>
+
+
+      <div class="delivery">
+
+        <h3>
+          🎁 Produto liberado
+        </h3>
+
+        <p>
+          Sua entrega de demonstração está disponível:
+        </p>
+
+        <div class="product-demo">
+          PRODUTO-DEMO-COFRE-CT
         </div>
 
       </div>
 
 
-      <button class="buy" onclick="fecharCheckout()">
+      <button class="buy" onclick="fecharModal('checkout')">
         Finalizar
       </button>
 
-
-      <div class="order">
-        Pedido de demonstração criado.
-      </div>
-
     </div>
+
+  </div>
+
+</div>
+
+
+<!-- CONSULTAR PEDIDO -->
+
+<div class="modal" id="consulta">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="fecharModal('consulta')">
+      ×
+    </button>
+
+
+    <div class="step-title">
+      Pedido
+    </div>
+
+    <h2>
+      Consultar pedido
+    </h2>
+
+    <p>
+      Digite o código recebido após a compra.
+    </p>
+
+
+    <input
+      type="text"
+      id="codigoConsulta"
+      placeholder="Ex: CT-A1B2C3"
+    >
+
+
+    <button class="buy" onclick="consultarPedido()">
+      Consultar
+    </button>
+
+
+    <div id="resultadoConsulta"></div>
 
   </div>
 
@@ -819,6 +979,27 @@
 
   let planoAtual = "";
   let precoAtual = "";
+  let pedidoAtual = null;
+
+
+  function gerarCodigoPedido() {
+
+    const caracteres =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    let codigo = "CT-";
+
+    for (let i = 0; i < 6; i++) {
+
+      codigo +=
+        caracteres.charAt(
+          Math.floor(Math.random() * caracteres.length)
+        );
+
+    }
+
+    return codigo;
+  }
 
 
   function abrirCheckout(plano, preco) {
@@ -826,35 +1007,42 @@
     planoAtual = plano;
     precoAtual = preco;
 
-    document.getElementById("planoEscolhido").innerText = plano;
+    pedidoAtual = null;
 
-    document.getElementById("resumoPlano").innerText = plano;
+    document.getElementById("planoEscolhido")
+      .innerText = plano;
 
-    document.getElementById("resumoPreco").innerText = preco;
+    document.getElementById("resumoPlano")
+      .innerText = plano;
 
-    document.getElementById("contato").value = "";
+    document.getElementById("resumoPreco")
+      .innerText = preco;
+
+    document.getElementById("contato")
+      .value = "";
 
     mostrarEtapa(1);
 
-    document.getElementById("checkout").style.display = "flex";
+    document.getElementById("checkout")
+      .style.display = "flex";
   }
 
 
-  function fecharCheckout() {
+  function fecharModal(id) {
 
-    document.getElementById("checkout").style.display = "none";
-
-    mostrarEtapa(1);
+    document.getElementById(id)
+      .style.display = "none";
   }
 
 
   function mostrarEtapa(numero) {
 
-    document.querySelectorAll(".step").forEach(function(step) {
+    document.querySelectorAll(".step")
+      .forEach(function(step) {
 
-      step.classList.remove("active");
+        step.classList.remove("active");
 
-    });
+      });
 
     document.getElementById("step" + numero)
       .classList.add("active");
@@ -864,7 +1052,8 @@
   function irParaPix() {
 
     let contato =
-      document.getElementById("contato").value.trim();
+      document.getElementById("contato")
+        .value.trim();
 
 
     if (contato === "") {
@@ -873,6 +1062,28 @@
 
       return;
     }
+
+
+    pedidoAtual = {
+
+      codigo: gerarCodigoPedido(),
+
+      plano: planoAtual,
+
+      preco: precoAtual,
+
+      contato: contato,
+
+      status: "Aguardando pagamento",
+
+      produto: null,
+
+      data: new Date().toLocaleString("pt-BR")
+
+    };
+
+
+    salvarPedido();
 
 
     document.getElementById("pixPlano")
@@ -889,7 +1100,8 @@
   function copiarPix() {
 
     let codigo =
-      document.getElementById("codigoPix").innerText;
+      document.getElementById("codigoPix")
+        .innerText;
 
 
     navigator.clipboard.writeText(codigo)
@@ -908,11 +1120,8 @@
 
   function irParaAguardando() {
 
-    document.getElementById("aguardandoPlano")
-      .innerText = planoAtual;
-
-    document.getElementById("aguardandoPreco")
-      .innerText = precoAtual;
+    document.getElementById("codigoPedidoTela")
+      .innerText = pedidoAtual.codigo;
 
 
     mostrarEtapa(3);
@@ -921,39 +1130,186 @@
 
   function simularPagamento() {
 
-    let contato =
-      document.getElementById("contato").value.trim();
+    if (!pedidoAtual) {
+      return;
+    }
 
+
+    pedidoAtual.status = "Pago";
+
+    pedidoAtual.produto =
+      "PRODUTO-DEMO-COFRE-CT";
+
+
+    salvarPedido();
+
+
+    document.getElementById("codigoPedidoAprovado")
+      .innerText = pedidoAtual.codigo;
 
     document.getElementById("aprovadoPlano")
-      .innerText = planoAtual;
+      .innerText = pedidoAtual.plano;
 
     document.getElementById("aprovadoPreco")
-      .innerText = precoAtual;
-
-    document.getElementById("aprovadoContato")
-      .innerText = contato;
+      .innerText = pedidoAtual.preco;
 
 
     mostrarEtapa(4);
   }
 
 
-  function voltarCheckout() {
+  function salvarPedido() {
 
-    mostrarEtapa(1);
+    localStorage.setItem(
+      "cofreCTPedido",
+      JSON.stringify(pedidoAtual)
+    );
+  }
+
+
+  function abrirConsulta() {
+
+    document.getElementById("codigoConsulta")
+      .value = "";
+
+    document.getElementById("resultadoConsulta")
+      .innerHTML = "";
+
+    document.getElementById("consulta")
+      .style.display = "flex";
+  }
+
+
+  function consultarPedido() {
+
+    let codigo =
+      document.getElementById("codigoConsulta")
+        .value.trim()
+        .toUpperCase();
+
+
+    let salvo =
+      localStorage.getItem("cofreCTPedido");
+
+
+    if (!salvo) {
+
+      document.getElementById("resultadoConsulta")
+        .innerHTML = `
+          <div class="warning">
+            Nenhum pedido encontrado neste navegador.
+          </div>
+        `;
+
+      return;
+    }
+
+
+    let pedido =
+      JSON.parse(salvo);
+
+
+    if (pedido.codigo !== codigo) {
+
+      document.getElementById("resultadoConsulta")
+        .innerHTML = `
+          <div class="warning">
+            Pedido não encontrado.
+          </div>
+        `;
+
+      return;
+    }
+
+
+    let statusClass =
+      pedido.status === "Pago"
+        ? "paid"
+        : "pending";
+
+
+    let statusTexto =
+      pedido.status === "Pago"
+        ? "🟢 Pago"
+        : "🟡 Aguardando pagamento";
+
+
+    let entrega = "";
+
+
+    if (pedido.status === "Pago") {
+
+      entrega = `
+        <div class="delivery">
+
+          <h3>
+            🎁 Produto liberado
+          </h3>
+
+          <p>
+            Sua entrega de demonstração:
+          </p>
+
+          <div class="product-demo">
+            ${pedido.produto}
+          </div>
+
+        </div>
+      `;
+
+    }
+
+
+    document.getElementById("resultadoConsulta")
+      .innerHTML = `
+
+        <div class="order-code">
+
+          <small>
+            Pedido
+          </small>
+
+          <strong>
+            ${pedido.codigo}
+          </strong>
+
+        </div>
+
+        <div class="status ${statusClass}">
+          ${statusTexto}
+        </div>
+
+        <div class="summary">
+
+          <div>
+            <span>Plano</span>
+            <strong>${pedido.plano}</strong>
+          </div>
+
+          <div>
+            <span>Valor</span>
+            <strong>${pedido.preco}</strong>
+          </div>
+
+        </div>
+
+        ${entrega}
+
+      `;
   }
 
 
   window.onclick = function(event) {
 
-    let modal =
-      document.getElementById("checkout");
+    if (event.target.id === "checkout") {
 
+      fecharModal("checkout");
 
-    if (event.target === modal) {
+    }
 
-      fecharCheckout();
+    if (event.target.id === "consulta") {
+
+      fecharModal("consulta");
 
     }
 
