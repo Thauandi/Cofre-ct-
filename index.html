@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -34,7 +35,8 @@
       letter-spacing: 2px;
     }
 
-    .logo span {
+    .logo span,
+    .red {
       color: #e50914;
     }
 
@@ -83,7 +85,6 @@
       border: 1px solid #292929;
       border-radius: 16px;
       padding: 25px;
-
       transition: 0.2s;
     }
 
@@ -136,13 +137,10 @@
       padding: 13px;
       border: none;
       border-radius: 9px;
-
       background: #e50914;
       color: white;
-
       font-size: 15px;
       font-weight: bold;
-
       cursor: pointer;
     }
 
@@ -150,19 +148,24 @@
       background: #ff1722;
     }
 
+    .secondary {
+      background: #222;
+      margin-top: 10px;
+    }
+
+    .secondary:hover {
+      background: #333;
+    }
+
     .info {
       width: 90%;
       max-width: 900px;
       margin: 0 auto 60px;
-
       padding: 25px;
-
       text-align: center;
-
       background: #101010;
       border: 1px solid #292929;
       border-radius: 15px;
-
       color: #999;
       line-height: 1.7;
     }
@@ -170,9 +173,7 @@
     footer {
       text-align: center;
       padding: 25px;
-
       border-top: 1px solid #222;
-
       color: #666;
       font-size: 13px;
     }
@@ -181,30 +182,24 @@
 
     .modal {
       display: none;
-
       position: fixed;
       inset: 0;
-
-      background: rgba(0, 0, 0, 0.85);
-
+      background: rgba(0, 0, 0, 0.88);
       align-items: center;
       justify-content: center;
-
       padding: 20px;
+      z-index: 1000;
     }
 
     .modal-box {
       width: 100%;
-      max-width: 420px;
-
+      max-width: 430px;
       background: #111;
-
       border: 1px solid #e50914;
       border-radius: 16px;
-
       padding: 30px;
-
       position: relative;
+      box-shadow: 0 0 40px rgba(229, 9, 20, 0.15);
     }
 
     .modal-box h2 {
@@ -220,26 +215,57 @@
       position: absolute;
       right: 15px;
       top: 10px;
-
       background: none;
       border: none;
-
       color: white;
       font-size: 25px;
-
       cursor: pointer;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step-title {
+      font-size: 13px;
+      color: #e50914;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .summary {
+      background: #080808;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 18px;
+    }
+
+    .summary div {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 7px 0;
+      color: #aaa;
+    }
+
+    .summary strong {
+      color: white;
     }
 
     input {
       width: 100%;
-
       padding: 13px;
       margin-bottom: 12px;
-
       background: #080808;
       border: 1px solid #333;
       border-radius: 8px;
-
       color: white;
       outline: none;
     }
@@ -253,10 +279,49 @@
       font-size: 12px;
       margin-top: 15px;
       line-height: 1.5;
+      text-align: center;
+    }
+
+    .loading {
+      width: 45px;
+      height: 45px;
+      border: 4px solid #333;
+      border-top-color: #e50914;
+      border-radius: 50%;
+      margin: 15px auto 20px;
+      animation: girar 1s linear infinite;
+    }
+
+    @keyframes girar {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .success-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: #e50914;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px auto 20px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .order {
+      color: #666;
+      font-size: 12px;
+      margin-top: 12px;
     }
 
     @media (max-width: 600px) {
-
       .hero h1 {
         font-size: 38px;
       }
@@ -279,7 +344,6 @@
 <body>
 
   <header>
-
     <div class="logo">
       COFRE <span>CT</span>
     </div>
@@ -287,7 +351,6 @@
     <div class="pix">
       PIX • CARTÃO
     </div>
-
   </header>
 
 
@@ -307,16 +370,11 @@
 
   <section class="plans">
 
-
-    <!-- 1 MÊS -->
-
     <div class="card">
 
       <h2>1 Mês</h2>
 
-      <div class="price">
-        R$ 24,90
-      </div>
+      <div class="price">R$ 24,90</div>
 
       <ul>
         <li>1 tela</li>
@@ -324,32 +382,21 @@
         <li>Suporte</li>
       </ul>
 
-      <button
-        class="buy"
+      <button class="buy"
         onclick="abrirCheckout('1 Mês', 'R$ 24,90')">
-
         Comprar
-
       </button>
 
     </div>
 
-
-    <!-- 1 MÊS + TELA EXTRA -->
 
     <div class="card popular">
 
-      <div class="tag">
-        MAIS VENDIDO
-      </div>
+      <div class="tag">MAIS VENDIDO</div>
 
-      <h2>
-        1 Mês + Tela Extra
-      </h2>
+      <h2>1 Mês + Tela Extra</h2>
 
-      <div class="price">
-        R$ 29,90
-      </div>
+      <div class="price">R$ 29,90</div>
 
       <ul>
         <li>2 telas</li>
@@ -357,28 +404,19 @@
         <li>Ativação após confirmação</li>
       </ul>
 
-      <button
-        class="buy"
+      <button class="buy"
         onclick="abrirCheckout('1 Mês + Tela Extra', 'R$ 29,90')">
-
         Comprar
-
       </button>
 
     </div>
 
 
-    <!-- 3 MESES -->
-
     <div class="card">
 
-      <h2>
-        3 Meses
-      </h2>
+      <h2>3 Meses</h2>
 
-      <div class="price">
-        R$ 52,90
-      </div>
+      <div class="price">R$ 52,90</div>
 
       <ul>
         <li>2 telas</li>
@@ -386,28 +424,19 @@
         <li>Ativação após confirmação</li>
       </ul>
 
-      <button
-        class="buy"
+      <button class="buy"
         onclick="abrirCheckout('3 Meses', 'R$ 52,90')">
-
         Comprar
-
       </button>
 
     </div>
 
 
-    <!-- 6 MESES -->
-
     <div class="card">
 
-      <h2>
-        6 Meses
-      </h2>
+      <h2>6 Meses</h2>
 
-      <div class="price">
-        R$ 99,90
-      </div>
+      <div class="price">R$ 99,90</div>
 
       <ul>
         <li>2 telas</li>
@@ -415,28 +444,19 @@
         <li>Ativação após confirmação</li>
       </ul>
 
-      <button
-        class="buy"
+      <button class="buy"
         onclick="abrirCheckout('6 Meses', 'R$ 99,90')">
-
         Comprar
-
       </button>
 
     </div>
 
 
-    <!-- 12 MESES -->
-
     <div class="card">
 
-      <h2>
-        12 Meses
-      </h2>
+      <h2>12 Meses</h2>
 
-      <div class="price">
-        R$ 169,90
-      </div>
+      <div class="price">R$ 169,90</div>
 
       <ul>
         <li>2 telas</li>
@@ -444,12 +464,9 @@
         <li>Ativação após confirmação</li>
       </ul>
 
-      <button
-        class="buy"
+      <button class="buy"
         onclick="abrirCheckout('12 Meses', 'R$ 169,90')">
-
         Comprar
-
       </button>
 
     </div>
@@ -467,65 +484,179 @@
 
     <br>
 
-    O pagamento e a entrega automática serão conectados
-    posteriormente.
+    O pagamento e a entrega automática serão conectados posteriormente.
 
   </div>
 
 
   <footer>
-
     © 2026 Cofre CT
-
   </footer>
 
 
-  <!-- JANELA DE CHECKOUT -->
+  <!-- CHECKOUT -->
 
-  <div
-    class="modal"
-    id="checkout">
+  <div class="modal" id="checkout">
 
     <div class="modal-box">
 
-      <button
-        class="close"
-        onclick="fecharCheckout()">
-
-        ×
-
-      </button>
+      <button class="close" onclick="fecharCheckout()">×</button>
 
 
-      <h2 id="planoEscolhido">
-        Seu plano
-      </h2>
+      <!-- ETAPA 1 -->
+
+      <div class="step active" id="step1">
+
+        <div class="step-title">
+          Checkout
+        </div>
+
+        <h2 id="planoEscolhido">
+          Seu plano
+        </h2>
+
+        <p>
+          Confira seus dados antes de continuar.
+        </p>
 
 
-      <p id="precoEscolhido">
-        R$ 0,00
-      </p>
+        <div class="summary">
+
+          <div>
+            <span>Plano</span>
+            <strong id="resumoPlano">-</strong>
+          </div>
+
+          <div>
+            <span>Valor</span>
+            <strong id="resumoPreco">-</strong>
+          </div>
+
+        </div>
 
 
-      <input
-        type="text"
-        id="contato"
-        placeholder="WhatsApp ou e-mail">
+        <input
+          type="text"
+          id="contato"
+          placeholder="WhatsApp ou e-mail"
+        >
 
 
-      <button
-        class="buy"
-        onclick="continuarPagamento()">
-
-        Continuar
-
-      </button>
+        <button class="buy" onclick="continuarPagamento()">
+          Continuar
+        </button>
 
 
-      <div class="notice">
+        <div class="notice">
+          Seus dados serão usados apenas para identificação do pedido.
+        </div>
 
-        Esta é uma versão inicial do checkout.
-        O pagamento real será conectado posteriormente.
+      </div>
+
+
+      <!-- ETAPA 2 -->
+
+      <div class="step" id="step2">
+
+        <div class="step-title">
+          Pagamento
+        </div>
+
+        <div class="center">
+
+          <div class="loading"></div>
+
+          <h2>
+            Aguardando pagamento
+          </h2>
+
+          <p>
+            Estamos aguardando a confirmação do pagamento.
+          </p>
+
+        </div>
+
+
+        <div class="summary">
+
+          <div>
+            <span>Plano</span>
+            <strong id="pagamentoPlano">-</strong>
+          </div>
+
+          <div>
+            <span>Valor</span>
+            <strong id="pagamentoPreco">-</strong>
+          </div>
+
+        </div>
+
+
+        <button class="buy" onclick="simularPagamento()">
+          Simular pagamento aprovado
+        </button>
+
+        <button class="buy secondary" onclick="voltarCheckout()">
+          Voltar
+        </button>
+
+
+        <div class="notice">
+          BOTÃO DE DEMONSTRAÇÃO — não realiza pagamento real.
+        </div>
+
+      </div>
+
+
+      <!-- ETAPA 3 -->
+
+      <div class="step" id="step3">
+
+        <div class="center">
+
+          <div class="success-icon">
+            ✓
+          </div>
+
+          <h2>
+            Pagamento aprovado!
+          </h2>
+
+          <p>
+            Seu pedido foi confirmado com sucesso.
+          </p>
+
+        </div>
+
+
+        <div class="summary">
+
+          <div>
+            <span>Plano</span>
+            <strong id="aprovadoPlano">-</strong>
+          </div>
+
+          <div>
+            <span>Valor</span>
+            <strong id="aprovadoPreco">-</strong>
+          </div>
+
+          <div>
+            <span>Contato</span>
+            <strong id="aprovadoContato">-</strong>
+          </div>
+
+        </div>
+
+
+        <button class="buy" onclick="fecharCheckout()">
+          Finalizar
+        </button>
+
+
+        <div class="order">
+          Pedido de demonstração criado.
+        </div>
 
       </div>
 
@@ -536,25 +667,45 @@
 
   <script>
 
+    let planoAtual = "";
+    let precoAtual = "";
+
+
     function abrirCheckout(plano, preco) {
 
-      document.getElementById("planoEscolhido")
-        .innerText = plano;
+      planoAtual = plano;
+      precoAtual = preco;
 
-      document.getElementById("precoEscolhido")
-        .innerText = preco;
+      document.getElementById("planoEscolhido").innerText = plano;
 
-      document.getElementById("checkout")
-        .style.display = "flex";
+      document.getElementById("resumoPlano").innerText = plano;
 
+      document.getElementById("resumoPreco").innerText = preco;
+
+      document.getElementById("contato").value = "";
+
+      mostrarEtapa(1);
+
+      document.getElementById("checkout").style.display = "flex";
     }
 
 
     function fecharCheckout() {
 
-      document.getElementById("checkout")
-        .style.display = "none";
+      document.getElementById("checkout").style.display = "none";
 
+      mostrarEtapa(1);
+    }
+
+
+    function mostrarEtapa(numero) {
+
+      document.querySelectorAll(".step").forEach(function(step) {
+        step.classList.remove("active");
+      });
+
+      document.getElementById("step" + numero)
+        .classList.add("active");
     }
 
 
@@ -569,17 +720,59 @@
         alert("Digite seu WhatsApp ou e-mail.");
 
         return;
-
       }
 
 
-      alert(
-        "Checkout de demonstração. O pagamento ainda não está conectado."
-      );
+      document.getElementById("pagamentoPlano")
+        .innerText = planoAtual;
 
+      document.getElementById("pagamentoPreco")
+        .innerText = precoAtual;
+
+
+      mostrarEtapa(2);
     }
+
+
+    function simularPagamento() {
+
+      let contato =
+        document.getElementById("contato").value.trim();
+
+
+      document.getElementById("aprovadoPlano")
+        .innerText = planoAtual;
+
+      document.getElementById("aprovadoPreco")
+        .innerText = precoAtual;
+
+      document.getElementById("aprovadoContato")
+        .innerText = contato;
+
+
+      mostrarEtapa(3);
+    }
+
+
+    function voltarCheckout() {
+
+      mostrarEtapa(1);
+    }
+
+
+    window.onclick = function(event) {
+
+      let modal =
+        document.getElementById("checkout");
+
+      if (event.target === modal) {
+        fecharCheckout();
+      }
+
+    };
 
   </script>
 
 </body>
 </html>
+```
